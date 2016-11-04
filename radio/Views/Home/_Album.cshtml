@@ -1,0 +1,68 @@
+﻿
+@model radio.ViewModels.IndexViewModel
+
+@{
+    int i = 0;
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Artist
+            </th>
+            <th>
+                Album
+            </th>
+            <th>
+                Track Number
+            </th>
+            <th>
+                Title
+            </th>
+            <th>
+                Genre
+            </th>
+            <th>
+                Length
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.indexview)
+        {
+
+            <script>
+                $("#@i").click(function () {
+                    myPlaylist.add({
+                        title: "@item.title",
+                        artist: "@item.artist",
+                        mp3: "@item.location"
+                    });
+                });
+            </script>
+
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.artist)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.album)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tracknumber)
+                </td>
+                <td>
+                    <a href="javascript:;" id="@i">@item.title</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.genre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.duration)
+                </td>
+            </tr>
+            i++;
+        }
+    </tbody>
+</table>

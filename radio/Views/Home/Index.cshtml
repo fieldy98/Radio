@@ -1,0 +1,33 @@
+﻿@model radio.ViewModels.IndexViewModel
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+
+<div id="information">
+    @foreach (var item in Model.indexview)
+    {
+        @*@Html.ActionLink(@item.artist, "About", "Home", new { artist = item.artist})*@
+        <a href="@Html.Action("_Catalog", "Home", new { artist = @item.artist, onclick = "LoadCatalog(@item.artist);"})">@item.artist</a><br />
+            <script>
+                function LoadCatalog(element) {
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("_Catalog", "Home")',
+                    data: { artist: @item.artist },
+                    success: function (data) {
+                        //$("#SelectDate").html(data);
+                        alert("success");
+                    },
+                    error: function (data) {
+                        alert("error");
+                    }
+                })
+
+            };
+            </script>
+        }
+</div>
+
+

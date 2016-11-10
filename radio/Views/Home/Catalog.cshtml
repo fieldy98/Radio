@@ -1,0 +1,62 @@
+﻿@model radio.ViewModels.IndexViewModel
+
+@{
+    ViewBag.Title = "Catalog";
+}
+
+<h2>@Model.artist</h2>
+<table id="CatalogTable" class="table">
+    <thead>
+        <tr>
+            <th>Album</th>
+            <th>Number Of Tracks</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.indexview)
+        {
+            <tr>
+                <td><a href="@Url.Action("Album", "Home", new { artist = item.artist, album = item.album })">@item.album </a></td>
+                <td>@Html.DisplayFor(modelItem => item.tracknumber)</td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+@Html.ActionLink("Back", "Index", "Home")
+
+<div id="UpdatePlay">
+    @Html.Partial("~/Views/Home/_Player.cshtml")
+</div>
+
+@section Scripts{
+    @*
+        Call DataTables Dependencies
+    *@
+<script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/DataTables/dataTables.bootstrap.min.js"></script>
+<script src="~/Scripts/DataTables/dataTables.buttons.min.js"></script>
+<script src="~/Scripts/DataTables/buttons.bootstrap.min.js"></script>
+<script src="~/Scripts/DataTables/buttons.html5.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+<script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+<script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+<script src="http://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+<script>
+        $(document).ready(function () {
+            // Setup DataTable
+            $('#CatalogTable').DataTable({
+                dom: 'Bfrtip',
+                lengthMenu: [
+            [20],
+            ['Show all']
+                ],
+                buttons: [
+                ]
+            });
+            // Pull Search Field to the right
+            $("#CatalogTable_filter").addClass("pull-right");
+        });
+
+</script>
+}

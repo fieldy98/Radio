@@ -1,0 +1,116 @@
+﻿@model radio.ViewModels.IndexViewModel
+
+@{
+    ViewBag.Title = "Album";
+}
+
+@{
+    int i = 0;
+}
+
+
+<h2>@Html.DisplayFor(modelItem => Model.album)</h2>
+<h5> by @Html.DisplayFor(modelItem => Model.artist)</h5>
+<table class="table" id="AlbumTable">
+    <thead>
+        <tr>
+            <th>
+                Track Number
+            </th>
+            <th>
+                Title
+            </th>
+            <th>
+                Genre
+            </th>
+            <th>
+                Length
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.indexview)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tracknumber)
+                </td>
+                <td>
+
+                    @Html.DisplayFor(modelItem => item.title)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.genre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.duration)
+                </td>
+                <td>
+                    <button value="@item.ID" type="button" onclick="LoadSong(this)">+</button><button value="@item.ID" type="button" onclick="LoadSong(this)">Edit</button>
+                </td>
+            </tr>
+            i++;
+        }
+    </tbody>
+</table>
+
+<a href="@Url.Action("Catalog", "Home", new { artist = Model.artist, album = Model.album })">Back</a>
+
+<div id="UpdatePlay">
+    @Html.Partial("~/Views/Home/_Player.cshtml")
+</div>
+
+@section Scripts{
+    @*
+        Call DataTables Dependencies
+    *@
+<script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/DataTables/dataTables.bootstrap.min.js"></script>
+<script src="~/Scripts/DataTables/dataTables.buttons.min.js"></script>
+<script src="~/Scripts/DataTables/buttons.bootstrap.min.js"></script>
+<script src="~/Scripts/DataTables/buttons.html5.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+<script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+<script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+<script src="http://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+<script>
+        $(document).ready(function () {
+            // Setup DataTable
+            $('#AlbumTable').DataTable({
+                dom: 'lfrti',
+                "bPaginate": false,
+                "bLengthChange": false,
+                "bFilter": true,
+                "bInfo": false,
+                "bAutoWidth": false,
+                lengthMenu: [
+            [-1],
+            ['Show all']
+                ],
+                buttons: [
+                ]
+            });
+            // Pull Search Field to the right
+            $("#AlbumTable_filter").addClass("pull-right");
+        });
+
+        function LoadSong(element) {
+            var song = $(element).val();
+            $.ajax({
+                type: 'Post',
+                url: '@Url.Action("Index", "Home")',
+                data: { ID: song },
+                success: function (data) {
+                    $("#UpdatePlaylist").load(location.href + " #UpdatePlaylist");
+                    //alert("success");
+                },
+                error: function (data) {
+                    alert("error");
+                }
+            })
+
+        };
+</script>
+}

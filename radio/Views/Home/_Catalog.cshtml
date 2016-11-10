@@ -1,8 +1,0 @@
-﻿
-@model radio.ViewModels.IndexViewModel
-
-@foreach (var item in Model.indexview)
-{
-    @*@Html.ActionLink(item.album, "Contact", "Home", null, new { album = item.album, artist = item.artist})*@
-    <a href="@Url.Action("Contact", "Home", new { artist = @item.artist, album = @item.album })">@item.album</a><br />
-}

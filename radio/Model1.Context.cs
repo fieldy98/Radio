@@ -25,6 +25,7 @@ namespace radio
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<PlaylistName> PlaylistNames { get; set; }
         public virtual DbSet<TrackList> TrackLists { get; set; }
     }
 }

@@ -1,0 +1,19 @@
+﻿@model radio.ViewModels.IndexViewModel
+
+<div id="wrapper">
+    <div id="sidebar-wrapper">
+        <ul class="sidebar-nav" style="position:fixed;">
+            <li class="sidebar-brand">
+                <a href="#">
+                    Start Bootstrap
+                </a>
+            </li>
+            @foreach (var item in Model.PlayList)
+            {
+                <li>
+                    <a href="@Url.Action("Playlist", "Home", new { username = item.Username, playlist = item.Playlist })">@item.Playlist</a>
+                </li>
+            }
+        </ul>
+    </div>
+</div>

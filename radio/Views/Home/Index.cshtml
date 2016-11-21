@@ -3,30 +3,71 @@
 @{
     ViewBag.Title = "Home Page";
 }
+@using PagedList.Mvc;
+@using PagedList;
 
-<table id="ArtistTable" class="table">
-    <thead>
-        <tr>
-            <th>Artists</th>
-            <th>Number Of Albums</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.indexview)
-        {
+    @using (Html.BeginForm())
+    {
+        <p>
+            @Html.TextBox("searchString")
+            <input type="submit" value="Search" />
+        </p>
+    }
+    @*<table id="ArtistTable" class="table">
+        <thead>
             <tr>
-                <td><a href="@Url.Action("Catalog", "Home", new { artist = item.artist })">@item.artist </a></td>
-                 
-                @*<td>@Html.DisplayFor(modelItem => item.artist)</td>*@
-                <td>@Html.DisplayFor(modelItem => item.album)</td>
+                <th>Artists</th>
+                <th>Number Of Albums</th>
             </tr>
-        }
+        </thead>
+        <tbody>
+            @foreach (var item in Model.indexview)
+            {
+                <tr>
+                    <td><a href="@Url.Action("Catalog", "Home", new { artist = item.artist })">@item.artist </a></td>
+                    <td>@Html.DisplayFor(modelItem => item.album)</td>
+                </tr>
+            }
 
-    </tbody>
-</table>
-<div id="UpdatePlay">
-    @Html.Partial("~/Views/Home/_Player.cshtml")
-</div>
+        </tbody>
+    </table>*@
+
+    <div class="row panel">
+        <div class="panel-body">
+            <div class="row">
+                @foreach (var item in Model.indexview)
+                {
+                    if (item.Art != null)
+                    {
+                        <div class="col-sm-2" style="height:250px">
+                            <a href="@Url.Action("Catalog", "Home", new { artist = item.artist })"><img style="max-width:100%;max-height:150px;" src="data:image/png;base64,@item.Art" alt="@item.artist" title="@item.artist"></a>
+                            <small>@item.artist</small>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-sm-2" style="height:250px">
+                            <a href="@Url.Action("Catalog", "Home", new { artist = item.artist })"><img style="max-width:100%;max-height:150px" src="~/image/No_image_available.svg" alt="@item.artist" title="@item.artist"></a>
+                            <p>@item.artist</p>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    @Html.PagedListPager((IPagedList)ViewBag.OnePageOfProducts, page => Url.Action("Index", new { page }))
+    @*<div id="UpdatePlay">
+        @Html.Partial("~/Views/Home/_Player.cshtml")
+    </div>*@
+
+
 
 @section Scripts{
     @*
@@ -41,11 +82,12 @@
 <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
 <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
 <script src="http://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
-<script>
+@*<script>
         $(document).ready(function () {
             // Setup DataTable
             $('#ArtistTable').DataTable({
                 dom: 'Bfrtip',
+                "bInfo": false,
                 lengthMenu: [
             [20],
             ['Show all']
@@ -56,5 +98,5 @@
             // Pull Search Field to the right
             $("#ArtistTable_filter").addClass("pull-right");
         });
-</script>
+</script>*@
 }

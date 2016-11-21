@@ -12,8 +12,9 @@ namespace radio
     using System;
     using System.Collections.Generic;
     
-    public partial class TrackList
+    public partial class PlaylistName
     {
+        public int ID { get; set; }
         public string Artist { get; set; }
         public string Album { get; set; }
         public string Title { get; set; }
@@ -23,9 +24,7 @@ namespace radio
         public Nullable<int> PlayCount { get; set; }
         public string Location { get; set; }
         public string Username { get; set; }
-        public int ID { get; set; }
-        public string Art { get; set; }
-        public byte[] ArtWork { get; set; }
-        public string Covers { get; set; }
+        public Nullable<int> TL_ID { get; set; }
+        public string PlaylistName1 { get; set; }
     }
 }

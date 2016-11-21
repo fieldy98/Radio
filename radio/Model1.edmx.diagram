@@ -4,8 +4,9 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="1a61d7b0ab874b018f0685f3e23d4cd9" Name="Diagram1">
-        <EntityTypeShape EntityType="SongListModel.TrackList" Width="1.5" PointX="0.75" PointY="0.75" />
+      <Diagram DiagramId="edca2fc762e1461c8ca65322585c3957" Name="Diagram1">
+        <EntityTypeShape EntityType="SongListModel.PlaylistName" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SongListModel.TrackList" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

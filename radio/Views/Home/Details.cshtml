@@ -1,0 +1,97 @@
+﻿@model radio.ViewModels.IndexViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div class="main-panel">
+    <div class="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3">
+                    @if (Model.Art != null)
+                    {
+                        <img style="max-width:100%;" src="data:image/png;base64,@Model.Art" alt="@Model.album" title="@Model.album" />
+                    }
+                </div>
+                <div class="col-sm-9">
+                    <div class="card">
+                        <div class="content">
+                            <div class="header">
+                                <h4 class="title">Details</h4>
+                            </div>
+                            <div>
+                                <dl class="dl-horizontal">
+                                    <dt>
+                                        Artist:
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.artist)
+                                    </dd>
+
+                                    <dt>
+                                        Album:
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.album)
+                                    </dd>
+
+                                    <dt>
+                                        Track Number:
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.tracknumber)
+                                    </dd>
+
+                                    <dt>
+                                        Title:
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.title)
+                                    </dd>
+
+                                    <dt>
+                                        Genre:
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.genre)
+                                    </dd>
+
+                                    <dt>
+                                        Duration:
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.duration)
+                                    </dd>
+
+                                    <dt>
+                                        Location:
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.location)
+                                    </dd>
+                                </dl>
+                            </div>
+                            <hr />
+                            <div class="btn-group" style="padding-bottom: 20px;">
+                                @Html.ActionLink("Back", "Album", new { artist = Model.artist, album = Model.album }, new { @class = "btn btn-default" })
+                                @Html.ActionLink("Delete", "Delete", new { id = Model.ID }, new { @class = "btn btn-danger" })
+                                @Html.ActionLink("Edit", "Edit", new { id = Model.ID }, new { @class = "btn btn-default" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>jQuery('#Reports').addClass('active');</script>
+}

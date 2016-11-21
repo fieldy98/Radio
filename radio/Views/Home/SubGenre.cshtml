@@ -1,0 +1,13 @@
+﻿@model radio.ViewModels.IndexViewModel
+
+@{
+    ViewBag.Title = "Browse Genre";
+}
+
+
+@foreach (var item in Model.indexview)
+{
+    @Html.ActionLink(item.genre, "GenreArtist", new { genre = item.genre }, new { @class = "btn btn-default" })
+}
+
+

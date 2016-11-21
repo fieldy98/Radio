@@ -3,27 +3,35 @@
 @{
     ViewBag.Title = "Catalog";
 }
+@Html.ActionLink("Back", "Index", null, new { @class = "btn btn-default" })
+<h2>@Model.artist<a class="btn btn-default pull-right" href="@Url.Action("Catalog", "Home", new { artist = Model.artist, shuffled = "yes" })"><span class="glyphicon glyphicon-random"></span></a></h2>
+<div class="row panel">
+    <div class="panel-body">
+        <div class="row">
+            @foreach (var item in Model.indexview)
+            {
+                if (item.Art != null)
+                {
+                    <div class="col-sm-2" style="height:250px">
+                        <a href="@Url.Action("Album", "Home", new { artist = item.artist, album = item.album })"><img style="max-width:100%;max-height:150px;" src="data:image/png;base64,@item.Art" alt="@item.album" title="@item.album"></a>
+                        <small>@item.album</small>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-sm-2" style="height:250px">
+                        <a href="@Url.Action("Album", "Home", new { artist = item.artist, album = item.album })"><img style="max-width:100%;max-height:150px" src="~/image/No_image_available.svg" alt="@item.album" title="@item.album"></a>
+                        <p>@item.album</p>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
 
-<h2>@Model.artist</h2>
-<table id="CatalogTable" class="table">
-    <thead>
-        <tr>
-            <th>Album</th>
-            <th>Number Of Tracks</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.indexview)
-        {
-            <tr>
-                <td><a href="@Url.Action("Album", "Home", new { artist = item.artist, album = item.album })">@item.album </a></td>
-                <td>@Html.DisplayFor(modelItem => item.tracknumber)</td>
-            </tr>
-        }
 
-    </tbody>
-</table>
-@Html.ActionLink("Back", "Index", "Home")
+
+
 
 <div id="UpdatePlay">
     @Html.Partial("~/Views/Home/_Player.cshtml")
@@ -46,15 +54,20 @@
         $(document).ready(function () {
             // Setup DataTable
             $('#CatalogTable').DataTable({
-                dom: 'Bfrtip',
+                dom: 'lfrti',
+                "bPaginate": false,
+                "bLengthChange": false,
+                "bFilter": true,
+                "bInfo": false,
+                "bAutoWidth": false,
                 lengthMenu: [
-            [20],
+            [-1],
             ['Show all']
                 ],
                 buttons: [
                 ]
             });
-            // Pull Search Field to the right
+            //Pull Search Field to the right
             $("#CatalogTable_filter").addClass("pull-right");
         });
 

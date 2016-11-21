@@ -1,0 +1,90 @@
+﻿@model radio.ViewModels.IndexViewModel
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<div class="main-panel">
+
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <h2>Delete</h2>
+
+                <h3>Are you sure you want to delete this?</h3>
+                <div>
+                    <hr />
+                    <dl class="dl-horizontal">
+                        <dt>
+                            Artist:
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.artist)
+                        </dd>
+
+                        <dt>
+                            Album:
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.album)
+                        </dd>
+
+                        <dt>
+                            Track Number:
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.tracknumber)
+                        </dd>
+
+                        <dt>
+                            Title:
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.title)
+                        </dd>
+
+                        <dt>
+                            Genre:
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.genre)
+                        </dd>
+
+                        <dt>
+                            Duration:
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.duration)
+                        </dd>
+
+                        <dt>
+                            Location:
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.location)
+                        </dd>
+                    </dl>
+
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-actions no-color">
+                            <input type="submit" value="Delete" class="btn btn-danger" />
+                            @Html.ActionLink("Back", "Details", new { id = Model.ID }, new { @class = "btn btn-default" })
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+}

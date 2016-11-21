@@ -1,0 +1,16 @@
+﻿@model radio.ViewModels.IndexViewModel
+
+@{
+    ViewBag.Title = "Browse Genre";
+}
+
+@Html.ActionLink("Metal", "SubGenre", new { genre = "metal" }, new { @class = "btn btn-default" })
+@Html.ActionLink("Electronic", "SubGenre", new { genre = "elec" }, new { @class = "btn btn-default" })
+@Html.ActionLink("Rock", "SubGenre", new { genre = "rock" }, new { @class = "btn btn-default" })
+@Html.ActionLink("Punk", "SubGenre", new { genre = "punk" }, new { @class = "btn btn-default" })
+@Html.ActionLink("Folk", "SubGenre", new { genre = "folk" }, new { @class = "btn btn-default" })
+@Html.ActionLink("Indie", "SubGenre", new { genre = "indie" }, new { @class = "btn btn-default" })
+@Html.ActionLink("Hip Hop/Rap", "SubGenre", new { genre = "hip hop"}, new { @class = "btn btn-default"})
+@Html.ActionLink("Comedy", "SubGenre", new { genre = "comedy" }, new { @class = "btn btn-default" })
+@Html.ActionLink("Country", "SubGenre", new { genre = "country" }, new { @class = "btn btn-default" })
+@Html.ActionLink("Other", "SubGenre", new { genre = "other" }, new { @class = "btn btn-default" })

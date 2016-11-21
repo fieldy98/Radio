@@ -150,13 +150,13 @@
 
 .sm2-bar-ui.textured.dark-text .sm2-playlist-wrapper {
  /* dark text + textured case: ditch 10% dark on playlist body. */
- background-color: #00838f;
+ background-color: #000000;
 }
 
 .sm2-bar-ui.textured.dark-text .sm2-playlist-wrapper ul li:hover a,
 .sm2-bar-ui.textured.dark-text .sm2-playlist-wrapper ul li.selected a {
  /* dark + textured case: dark highlights */
- background-color: rgba(0,131,143,1);
+ background-color: rgba(0,0,0,1);
  background-image: url(../image/black-10.png);
  /* modern browsers don't neeed the image */
  background-image: none, none;
@@ -168,21 +168,21 @@
 }
 
 .sm2-bar-ui .sm2-playlist-wrapper {
- background-color: rgba(0,131,143,1);
+ background-color: rgba(0,0,0,1);
 }
 
 .sm2-bar-ui .sm2-extra-controls .bd {
- background-color: rgba(0,131,143,1);
+ background-color: rgba(0,0,0,1);
 }
 
 
 .sm2-bar-ui.textured .sm2-extra-controls .bd {
  /* lighten extra color overlays */
- background-color: rgba(0,131,143,1);
+ background-color: rgba(0,0,0,1);
 }
 
 .sm2-bar-ui .sm2-extra-controls {
- background-color: #00838f;
+ background-color: #000000;
  border: none;
 }
 
@@ -224,13 +224,13 @@
 }
 
 .sm2-bar-ui .bd .sm2-button-element:hover {
- background-color: rgba(0,131,143,0.75);
+ background-color: rgba(0,0,0,0.75);
  background-image: url(../image/black-10.png);
  background-image: none, none;
 }
 
 .sm2-bar-ui .bd .sm2-button-element:active {
- background-color: rgba(0,131,143,1);
+ background-color: rgba(0,0,0,1);
  background-image: url(../image/black-25.png);
  background-image: none, none;
 }
@@ -251,7 +251,7 @@
 .sm2-bar-ui .bd .sm2-extra-controls .sm2-button-element:hover,
 .sm2-bar-ui .bd .sm2-extra-controls .sm2-button-element:active,
 .sm2-bar-ui .bd .active {
- background-color: rgba(0,131,143,1);
+ background-color: rgba(0,0,0,1);
  background-image: url(../image/black-10.png);
  background-image: none, none;
 }
@@ -306,7 +306,7 @@
 .sm2-bar-ui .sm2-extra-controls .bd {
  /* don't double-layer. */
  background-image: none;
- background-color: rgba(0,131,143,1);
+ background-color: rgba(0,0,0,1);
 }
 
 .sm2-bar-ui .sm2-extra-controls .sm2-inline-element {
@@ -329,7 +329,7 @@
 .sm2-bar-ui .sm2-inline-element {
  /* extra-small em scales up nicely, vs. 1px which gets fat */
  border-right: 0.075em dotted #666; /* legacy */
- border-right: 0.075em solid rgba(0,131,143,1);
+ border-right: 0.075em solid rgba(0,0,0,1);
 }
 
 .sm2-bar-ui .sm2-inline-element.noborder {
@@ -484,14 +484,14 @@
 */
 
 .sm2-progress .sm2-progress-track {
- background-color: rgba(0,151,167,1);
+ background-color: rgba(255,255,255,0.125);
  background-image: url(../image/black-33.png); /* legacy */
  background-image: none, none; /* modern browsers */
 }
 
 /* scrollbar rules have to be separate, browsers not supporting this syntax will skip them when combined. */
 .sm2-playlist-wrapper ul::-webkit-scrollbar-track {
- background-color: rgba(0,131,143,1);
+ background-color: rgba(0,0,0,1);
 }
 
 .playing.grabbing .sm2-progress .sm2-progress-track,
@@ -642,11 +642,11 @@
 
 .sm2-playlist-wrapper ul li .sm2-col {
  /* sibling table cells get borders. */
- border-right: 1px solid rgba(0,131,143,1);
+ border-right: 1px solid rgba(0,0,0,1);
 }
 
 .sm2-playlist-wrapper ul li.selected .sm2-col {
- border-color: rgba(0,131,143,1);
+ border-color: rgba(0,0,0,1);
 }
 
 .sm2-playlist-wrapper ul li .sm2-col:last-of-type {
@@ -958,7 +958,7 @@
  font-size: 0.7em;
  margin-left: 0.25em;
  vertical-align: top;
- background-color: rgba(0,131,143,1);
+ background-color: rgba(0,0,0,1);
  border-radius: 3px;
  padding: 0px 3px;
  box-sizing: padding-box;
@@ -1005,7 +1005,7 @@
 
 .sm2-bar-ui .sm2-main-controls,
 .sm2-bar-ui .sm2-playlist-drawer {
- background-color: #00838f;
+ background-color: #000000;
 }
 
 .sm2-bar-ui .sm2-inline-texture {

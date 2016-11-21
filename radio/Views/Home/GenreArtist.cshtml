@@ -1,0 +1,63 @@
+﻿@model radio.ViewModels.IndexViewModel
+
+@{
+    ViewBag.Title = "Artist Page";
+}
+
+<table id="ArtistTable" class="table">
+    <thead>
+        <tr>
+            <th>Artists</th>
+            <th>Number Of Albums</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.indexview)
+            {
+            <tr>
+                <td><a href="@Url.Action("Catalog", "Home", new { artist = item.artist })">@item.artist </a></td>
+
+                @*<td>@Html.DisplayFor(modelItem => item.artist)</td>*@
+                <td>@Html.DisplayFor(modelItem => item.album)</td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+
+<div id="UpdatePlay">
+    @Html.Partial("~/Views/Home/_Player.cshtml")
+</div>
+
+
+@section Scripts{
+    @*
+        Call DataTables Dependencies
+    *@
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/DataTables/dataTables.bootstrap.min.js"></script>
+    <script src="~/Scripts/DataTables/dataTables.buttons.min.js"></script>
+    <script src="~/Scripts/DataTables/buttons.bootstrap.min.js"></script>
+    <script src="~/Scripts/DataTables/buttons.html5.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <script src="http://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Setup DataTable
+            $('#ArtistTable').DataTable({
+                dom: 'Bfrtip',
+                "bInfo": false,
+                lengthMenu: [
+            [20],
+            ['Show all']
+                ],
+                buttons: [
+                ]
+            });
+            // Pull Search Field to the right
+            $("#ArtistTable_filter").addClass("pull-right");
+        });
+    </script>
+}

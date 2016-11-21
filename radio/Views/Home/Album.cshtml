@@ -8,59 +8,86 @@
     int i = 0;
 }
 
-
-<h2>@Html.DisplayFor(modelItem => Model.album)</h2>
-<h5> by @Html.DisplayFor(modelItem => Model.artist)</h5>
-<table class="table" id="AlbumTable">
-    <thead>
-        <tr>
-            <th>
-                Track Number
-            </th>
-            <th>
-                Title
-            </th>
-            <th>
-                Genre
-            </th>
-            <th>
-                Length
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.indexview)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.tracknumber)
-                </td>
-                <td>
-
-                    @Html.DisplayFor(modelItem => item.title)
-
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.genre)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.duration)
-                </td>
-                <td>
-                    <button value="@item.ID" type="button" onclick="LoadSong(this)">+</button><button value="@item.ID" type="button" onclick="LoadSong(this)">Edit</button>
-                </td>
-            </tr>
-            i++;
-        }
-    </tbody>
-</table>
-
-<a href="@Url.Action("Catalog", "Home", new { artist = Model.artist, album = Model.album })">Back</a>
-
-<div id="UpdatePlay">
-    @Html.Partial("~/Views/Home/_Player.cshtml")
+@Html.ActionLink("Back", "Catalog", new { artist = Model.artist, album = Model.album }, new { @class = "btn btn-default" })
+<div class="row panel">
+    <div class="panel-body">
+        <div class="col-sm-12">
+            <h2>@Html.DisplayFor(modelItem => Model.album)</h2>
+            <h5> by @Html.DisplayFor(modelItem => Model.artist)</h5>
+            <h6>@Model.Playlist songs lasting @Model.duration</h6>
+        </div>
+    </div>
 </div>
+<div class="row panel">
+    <div class="panel-body">
+        <div class="col-sm-3">
+            @if (Model.Art != null)
+            {
+                <img style="max-width:100%;" src="data:image/png;base64,@Model.Art" alt="@Model.album" title="@Model.album" />
+            }
+
+        </div>
+
+
+        <div class="col-xs-9">
+            <table class="table" id="AlbumTable">
+                <thead>
+                    <tr>
+                        <th>
+                            Track Number
+                        </th>
+                        <th>
+                            Title
+                        </th>
+                        <th>
+                            Genre
+                        </th>
+                        <th>
+                            Length
+                        </th>
+                        <th>
+                            <a class="btn btn-default" href="@Url.Action("Album", "Home", new { artist = Model.artist, album = Model.album, shuffled = "yes" })"><span class="glyphicon glyphicon-random"></span></a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.indexview)
+            {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.tracknumber)
+                            </td>
+                            <td>
+
+                                @Html.DisplayFor(modelItem => item.title)
+
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.genre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.duration)
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group" aria-label="Basic example">
+                                    <button type="button" class="btn btn-default" onclick="window.sm2BarPlayers[0].actions.play(@i);"><span class="glyphicon glyphicon-play"></span></button>
+                                    <a class="btn btn-default" href="@Url.Action("AddToPlaylist", "Home", new { id = item.ID })"><span class="glyphicon glyphicon-plus"></span></a>
+                                    <a class="btn btn-default" href="@Url.Action("Details", "Home", new { id = item.ID })"><span class="glyphicon glyphicon-edit"></span></a>
+                                </div>
+                            </td>
+                        </tr>
+                        i++;
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+    <div id="UpdatePlay">
+        @Html.Partial("~/Views/Home/_Player.cshtml")
+    </div>
+
 
 @section Scripts{
     @*
@@ -85,6 +112,7 @@
                 "bFilter": true,
                 "bInfo": false,
                 "bAutoWidth": false,
+                "searching": false,
                 lengthMenu: [
             [-1],
             ['Show all']
@@ -100,10 +128,10 @@
             var song = $(element).val();
             $.ajax({
                 type: 'Post',
-                url: '@Url.Action("Index", "Home")',
+                url: '@Url.Action("Album", "Home")',
                 data: { ID: song },
                 success: function (data) {
-                    $("#UpdatePlaylist").load(location.href + " #UpdatePlaylist");
+                    $("#UpdatePlaylist").append(data);
                     //alert("success");
                 },
                 error: function (data) {
@@ -112,5 +140,8 @@
             })
 
         };
+    $('#myModal').on('shown.bs.modal', function () {
+        $('#myInput').focus()
+    })
 </script>
 }

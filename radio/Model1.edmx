@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SongListModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="SongListModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="PlaylistName">
           <Key>
             <PropertyRef Name="ID" />
@@ -39,13 +39,14 @@
           <Property Name="Art" Type="nvarchar(max)" />
           <Property Name="ArtWork" Type="binary" MaxLength="50" />
           <Property Name="Covers" Type="varchar(max)" />
+          <Property Name="Timestamp" Type="timestamp" StoreGeneratedPattern="Computed" />
+          <Property Name="TimeAdded" Type="datetime" />
         </EntityType>
         <EntityContainer Name="SongListModelStoreContainer">
           <EntitySet Name="PlaylistName" EntityType="Self.PlaylistName" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TrackList" EntityType="Self.TrackList" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SongListModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -83,6 +84,8 @@
           <Property Name="Art" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ArtWork" Type="Binary" MaxLength="50" FixedLength="true" />
           <Property Name="Covers" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Timestamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="TimeAdded" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityContainer Name="SongListEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="PlaylistNames" EntityType="Self.PlaylistName" />
@@ -115,6 +118,8 @@
           <EntitySetMapping Name="TrackLists">
             <EntityTypeMapping TypeName="SongListModel.TrackList">
               <MappingFragment StoreEntitySet="TrackList">
+                <ScalarProperty Name="TimeAdded" ColumnName="TimeAdded" />
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
                 <ScalarProperty Name="Artist" ColumnName="Artist" />
                 <ScalarProperty Name="Album" ColumnName="Album" />
                 <ScalarProperty Name="Title" ColumnName="Title" />

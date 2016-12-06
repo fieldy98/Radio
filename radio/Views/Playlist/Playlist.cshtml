@@ -28,7 +28,7 @@ There are @Model.tracknumber songs lasting @Model.duration.
                             Length
                         </th>
                         <th>
-                            <a class="btn btn-default" href="@Url.Action("Playlist", "Home", new { username = User.Identity.Name, playlist = Model.Playlist, shuffled = "yes" })"><span class="glyphicon glyphicon-random"></span></a>
+                            <a class="btn btn-default" href="@Url.Action("Playlist", "Playlist", new { username = User.Identity.Name, playlist = Model.Playlist, shuffled = "yes" })"><span class="glyphicon glyphicon-random"></span></a>
                         </th>
                     </tr>
                 </thead>
@@ -59,7 +59,7 @@ There are @Model.tracknumber songs lasting @Model.duration.
                                     {
                                         <button type="button" class="btn btn-default disabled" data-toggle="modal" data-target=".@item.ID"><span class="glyphicon glyphicon-picture"></span></button>
                                     }
-                                    <a class="btn btn-danger" href="@Url.Action("PlaylistRemove", "Home", new { id = item.ID })"><span class="glyphicon glyphicon-remove"></span></a>
+                                    <a class="btn btn-danger" href="@Url.Action("PlaylistRemove", "Playlist", new { id = item.ID })"><span class="glyphicon glyphicon-remove"></span></a>
                                 </div>
                             </td>
                         </tr>
@@ -89,7 +89,7 @@ There are @Model.tracknumber songs lasting @Model.duration.
 </div>
 
 <div id="UpdatePlay">
-    @Html.Partial("~/Views/Home/_Player.cshtml")
+    @Html.Partial("~/Views/Shared/_Player.cshtml")
 </div>
 
 

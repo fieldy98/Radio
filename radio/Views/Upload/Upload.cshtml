@@ -1,0 +1,8 @@
+﻿@model radio.ViewModels.IndexViewModel
+@{
+    ViewBag.Title = "UploadSongs";
+}
+
+
+@Html.Raw(Json.Encode(ViewBag.List))
+@Html.Raw(Json.Encode(ViewBag.Songs))

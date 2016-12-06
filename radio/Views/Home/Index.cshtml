@@ -37,18 +37,42 @@
             <div class="row">
                 @foreach (var item in Model.indexview)
                 {
-                    if (item.Art != null)
+                    if (File.Exists(@"\\51-DBA\radio\image\" + item.artist + ".jpg"))
+                    {
+                        var image = item.artist + ".jpg";
+                        <div class="col-sm-2" style="height:250px">
+                            <a href="@Url.Action("Catalog", "Home", new { artist = item.artist })"><img style="max-width:100%;height:150px;" src="~/image/@image" alt="@item.artist" title="@item.artist"></a>
+                            <small><br />@item.artist</small>
+                        </div>
+                    }
+                    else if (File.Exists(@"\\51-DBA\radio\image\" + item.artist + ".png"))
+                    {
+                        var image = item.artist + ".png";
+                        <div class="col-sm-2" style="height:250px">
+                            <a href="@Url.Action("Catalog", "Home", new { artist = item.artist })"><img style="max-width:100%;height:150px;" src="~/image/@image" alt="@item.artist" title="@item.artist"></a>
+                            <small><br />@item.artist</small>
+                        </div>
+                    }
+                    else if (File.Exists(@"\\51-DBA\radio\image\" + item.artist + ".bmp"))
+                    {
+                        var image = item.artist + ".bmp";
+                        <div class="col-sm-2" style="height:250px">
+                            <a href="@Url.Action("Catalog", "Home", new { artist = item.artist })"><img style="max-width:100%;height:150px;" src="~/image/@image" alt="@item.artist" title="@item.artist"></a>
+                            <small><br />@item.artist</small>
+                        </div>
+                    }
+                    else if (item.Art != null)
                     {
                         <div class="col-sm-2" style="height:250px">
                             <a href="@Url.Action("Catalog", "Home", new { artist = item.artist })"><img style="max-width:100%;max-height:150px;" src="data:image/png;base64,@item.Art" alt="@item.artist" title="@item.artist"></a>
-                            <small>@item.artist</small>
+                            <small><br />@item.artist</small>
                         </div>
                     }
                     else
                     {
                         <div class="col-sm-2" style="height:250px">
                             <a href="@Url.Action("Catalog", "Home", new { artist = item.artist })"><img style="max-width:100%;max-height:150px" src="~/image/No_image_available.svg" alt="@item.artist" title="@item.artist"></a>
-                            <p>@item.artist</p>
+                            <small><br />@item.artist</small>
                         </div>
                     }
                 }
@@ -63,40 +87,9 @@
 
 
     @Html.PagedListPager((IPagedList)ViewBag.OnePageOfProducts, page => Url.Action("Index", new { page }))
-    @*<div id="UpdatePlay">
-        @Html.Partial("~/Views/Home/_Player.cshtml")
-    </div>*@
 
 
 
 @section Scripts{
-    @*
-        Call DataTables Dependencies
-    *@
-<script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
-<script src="~/Scripts/DataTables/dataTables.bootstrap.min.js"></script>
-<script src="~/Scripts/DataTables/dataTables.buttons.min.js"></script>
-<script src="~/Scripts/DataTables/buttons.bootstrap.min.js"></script>
-<script src="~/Scripts/DataTables/buttons.html5.min.js"></script>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
-<script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
-<script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
-<script src="http://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
-@*<script>
-        $(document).ready(function () {
-            // Setup DataTable
-            $('#ArtistTable').DataTable({
-                dom: 'Bfrtip',
-                "bInfo": false,
-                lengthMenu: [
-            [20],
-            ['Show all']
-                ],
-                buttons: [
-                ]
-            });
-            // Pull Search Field to the right
-            $("#ArtistTable_filter").addClass("pull-right");
-        });
-</script>*@
+
 }

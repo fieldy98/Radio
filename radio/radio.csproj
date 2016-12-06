@@ -214,8 +214,12 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BrowseController.cs" />
+    <Compile Include="Controllers\DetailsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PlaylistController.cs" />
+    <Compile Include="Controllers\UploadController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -799,7 +803,7 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_Sidebar.cshtml" />
-    <Content Include="Views\Home\_Player.cshtml" />
+    <Content Include="Views\Shared\_Player.cshtml" />
     <Content Include="sm2\bower.json" />
     <Content Include="sm2\component.json" />
     <Content Include="sm2\demo\360-player\360 button %28retina - not playing%29.psd" />
@@ -847,18 +851,18 @@
     <Content Include="sm2\swf\soundmanager2_flash_xdomain.zip" />
     <Content Include="Views\Home\Catalog.cshtml" />
     <Content Include="Views\Home\Album.cshtml" />
-    <Content Include="Views\Home\Details.cshtml" />
-    <Content Include="Views\Home\Edit.cshtml" />
-    <Content Include="Views\Home\Delete.cshtml" />
+    <Content Include="Views\Details\Details.cshtml" />
+    <Content Include="Views\Details\Edit.cshtml" />
+    <Content Include="Views\Details\Delete.cshtml" />
     <Content Include="Views\Home\AlbumEdit.cshtml" />
-    <Content Include="Views\Home\_AddToPlaylist.cshtml" />
-    <Content Include="Views\Home\AddToPlaylist.cshtml" />
-    <Content Include="Views\Home\Playlist.cshtml" />
-    <Content Include="Views\Home\_Sidebar.cshtml" />
-    <Content Include="Views\Home\Genre.cshtml" />
-    <Content Include="Views\Home\SubGenre.cshtml" />
-    <Content Include="Views\Home\GenreArtist.cshtml" />
-    <Content Include="Views\Home\PlaylistRemove.cshtml" />
+    <Content Include="Views\Playlist\_AddToPlaylist.cshtml" />
+    <Content Include="Views\Playlist\AddToPlaylist.cshtml" />
+    <Content Include="Views\Playlist\Playlist.cshtml" />
+    <Content Include="Views\Browse\Genre.cshtml" />
+    <Content Include="Views\Browse\SubGenre.cshtml" />
+    <Content Include="Views\Browse\GenreArtist.cshtml" />
+    <Content Include="Views\Playlist\PlaylistRemove.cshtml" />
+    <Content Include="Views\Upload\Upload.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

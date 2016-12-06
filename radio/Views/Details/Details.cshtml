@@ -81,7 +81,7 @@
                             </div>
                             <hr />
                             <div class="btn-group" style="padding-bottom: 20px;">
-                                @Html.ActionLink("Back", "Album", new { artist = Model.artist, album = Model.album }, new { @class = "btn btn-default" })
+                                @Html.ActionLink("Back", "Album", "Index", new { artist = Model.artist, album = Model.album }, new { @class = "btn btn-default" })
                                 @Html.ActionLink("Delete", "Delete", new { id = Model.ID }, new { @class = "btn btn-danger" })
                                 @Html.ActionLink("Edit", "Edit", new { id = Model.ID }, new { @class = "btn btn-default" })
                             </div>

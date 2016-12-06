@@ -39,19 +39,26 @@
                                 @foreach (var item in Model.PlayList)
                                 {
                                     <li>
-                                        <a href="@Url.Action("Playlist", "Home", new { playlist = item.Playlist })">@item.Playlist</a>
+                                        <a href="@Url.Action("Playlist", "Playlist", new { playlist = item.Playlist })">@item.Playlist</a>
                                     </li>
                                 }
+                                <li>
+                                    <a href="@Url.Action("Playlist", "Playlist", new { playlist = "thisweek" })">New Songs This Week</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Upload", "Upload")">Sync Songs</a>
+                                </li>
                             </ul>
                         </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Browse <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    @Html.ActionLink("Genre", "Genre", "Home")
+                                    @Html.ActionLink("Genre", "Genre", "Browse")
                                 </li>
                             </ul>
                         </li>
+                        
                     </ul>
                 
                 

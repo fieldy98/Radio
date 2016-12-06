@@ -27,5 +27,7 @@ namespace radio
         public string Art { get; set; }
         public byte[] ArtWork { get; set; }
         public string Covers { get; set; }
+        public byte[] Timestamp { get; set; }
+        public Nullable<System.DateTime> TimeAdded { get; set; }
     }
 }

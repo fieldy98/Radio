@@ -24,7 +24,7 @@ There are @Model.tracknumber songs lasting @Model.duration.
                         <th>
                             Title
                         </th>
-                        <th>
+                        <th class="hidden-xs">
                             Length
                         </th>
                         <th>
@@ -45,7 +45,7 @@ There are @Model.tracknumber songs lasting @Model.duration.
                             <td>
                                 @Html.DisplayFor(modelItem => item.title)
                             </td>
-                            <td>
+                            <td class="hidden-xs">
                                 @Html.DisplayFor(modelItem => item.duration)
                             </td>
                             <td class="col-sm-3">
@@ -94,6 +94,14 @@ There are @Model.tracknumber songs lasting @Model.duration.
 
 
 @section Scripts{
+    <script>
+        $(function () {
+            $(".table-class tr").each(function () {
+                $(this).find('td:eq(2)').addClass("hidden-xs");
+            });
+        });
+    </script>
+
     @*
         Call DataTables Dependencies
     *@

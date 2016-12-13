@@ -119,6 +119,672 @@ namespace radio.Controllers
                     c++;
                 }
             }
+            else if (playlist == "metal")
+            {
+                var songs = db.TrackLists.Where(x => x.Genre.Contains("metal") || x.Genre.Contains("stoner rock") || x.Genre.Contains("doom") || x.Genre.Contains("visual kei") || x.Genre.Contains("nintendocore") || x.Genre.Contains("grindcore") || x.Genre.Contains("industrial")).ToArray();
+                Shuffle(songs);
+                var tracks  = songs.Take(15);
+
+                var hours = 0;
+                var minutes = 0;
+                var seconds = 0;
+
+                foreach (var item in tracks)
+                {
+                    string[] duration = item.Duration.Split(':', '.');
+                    hours = hours + Convert.ToInt32(duration[0]);
+                    minutes = minutes + Convert.ToInt32(duration[1]);
+                    seconds = seconds + Convert.ToInt32(duration[2]);
+                }
+                for (var i = seconds; i >= 60; i = i - 60)
+                {
+                    seconds = seconds - 60;
+                    minutes = minutes + 1;
+                }
+                for (var i = minutes; i >= 60; i = i - 60)
+                {
+                    minutes = minutes - 60;
+                    hours = hours + 1;
+                }
+                var timeframe = hours.ToString() + " hours " + minutes.ToString() + " minutes " + seconds.ToString() + " seconds";
+                invm.duration = timeframe;
+                invm.tracknumber = songs.Count();
+
+
+
+                var c = 1;
+                foreach (var item in tracks)
+                {
+                    ivm tl = new ivm();
+
+                    var track = db.TrackLists.FirstOrDefault(x => x.ID == item.ID).Location;
+                    track = @"\\51-DBA\radio\music\" + track.Substring(7);
+                    TagLib.File file = TagLib.File.Create(track);
+
+                    if (file.Tag.Pictures.Length >= 1)
+                    {
+                        tl.Art = Convert.ToBase64String(file.Tag.Pictures[0].Data.Data);
+                    }
+
+
+                    tl.artist = item.Artist;
+                    tl.album = item.Album;
+                    tl.tracknumber = item.TrackNumber;
+                    tl.title = item.Title;
+                    tl.duration = item.Duration.Substring(0, item.Duration.Length - 8);
+                    tl.genre = item.Genre;
+                    tl.location = item.Location;
+                    tl.ID = item.ID;
+                    tl.tracknumber = c;
+
+                    invm.indexview.Add(tl);
+
+                    player pl = new player();
+                    pl.artist = item.Artist;
+                    pl.album = item.Album;
+                    pl.tracknumber = item.TrackNumber;
+                    pl.title = item.Title;
+                    pl.duration = item.Duration.Substring(0, item.Duration.Length - 8);
+                    pl.genre = item.Genre;
+                    pl.location = item.Location;
+
+                    invm.StreamPlayer.Add(pl);
+
+                    c++;
+                }
+            }
+            else if (playlist == "electronic")
+            {
+                var songs = db.TrackLists.Where(x => x.Genre.Contains("elec")).ToArray();
+                Shuffle(songs);
+                var tracks = songs.Take(15);
+
+                var hours = 0;
+                var minutes = 0;
+                var seconds = 0;
+
+                foreach (var item in tracks)
+                {
+                    string[] duration = item.Duration.Split(':', '.');
+                    hours = hours + Convert.ToInt32(duration[0]);
+                    minutes = minutes + Convert.ToInt32(duration[1]);
+                    seconds = seconds + Convert.ToInt32(duration[2]);
+                }
+                for (var i = seconds; i >= 60; i = i - 60)
+                {
+                    seconds = seconds - 60;
+                    minutes = minutes + 1;
+                }
+                for (var i = minutes; i >= 60; i = i - 60)
+                {
+                    minutes = minutes - 60;
+                    hours = hours + 1;
+                }
+                var timeframe = hours.ToString() + " hours " + minutes.ToString() + " minutes " + seconds.ToString() + " seconds";
+                invm.duration = timeframe;
+                invm.tracknumber = songs.Count();
+
+
+
+                var c = 1;
+                foreach (var item in tracks)
+                {
+                    ivm tl = new ivm();
+
+                    var track = db.TrackLists.FirstOrDefault(x => x.ID == item.ID).Location;
+                    track = @"\\51-DBA\radio\music\" + track.Substring(7);
+                    TagLib.File file = TagLib.File.Create(track);
+
+                    if (file.Tag.Pictures.Length >= 1)
+                    {
+                        tl.Art = Convert.ToBase64String(file.Tag.Pictures[0].Data.Data);
+                    }
+
+
+                    tl.artist = item.Artist;
+                    tl.album = item.Album;
+                    tl.tracknumber = item.TrackNumber;
+                    tl.title = item.Title;
+                    tl.duration = item.Duration.Substring(0, item.Duration.Length - 8);
+                    tl.genre = item.Genre;
+                    tl.location = item.Location;
+                    tl.ID = item.ID;
+                    tl.tracknumber = c;
+
+                    invm.indexview.Add(tl);
+
+                    player pl = new player();
+                    pl.artist = item.Artist;
+                    pl.album = item.Album;
+                    pl.tracknumber = item.TrackNumber;
+                    pl.title = item.Title;
+                    pl.duration = item.Duration.Substring(0, item.Duration.Length - 8);
+                    pl.genre = item.Genre;
+                    pl.location = item.Location;
+
+                    invm.StreamPlayer.Add(pl);
+
+                    c++;
+                }
+            }
+            else if (playlist == "comedy")
+            {
+                var songs = db.TrackLists.Where(x => x.Genre.Contains("comedy")).ToArray();
+                Shuffle(songs);
+                var tracks = songs.Take(15);
+
+                var hours = 0;
+                var minutes = 0;
+                var seconds = 0;
+
+                foreach (var item in tracks)
+                {
+                    string[] duration = item.Duration.Split(':', '.');
+                    hours = hours + Convert.ToInt32(duration[0]);
+                    minutes = minutes + Convert.ToInt32(duration[1]);
+                    seconds = seconds + Convert.ToInt32(duration[2]);
+                }
+                for (var i = seconds; i >= 60; i = i - 60)
+                {
+                    seconds = seconds - 60;
+                    minutes = minutes + 1;
+                }
+                for (var i = minutes; i >= 60; i = i - 60)
+                {
+                    minutes = minutes - 60;
+                    hours = hours + 1;
+                }
+                var timeframe = hours.ToString() + " hours " + minutes.ToString() + " minutes " + seconds.ToString() + " seconds";
+                invm.duration = timeframe;
+                invm.tracknumber = songs.Count();
+
+
+
+                var c = 1;
+                foreach (var item in tracks)
+                {
+                    ivm tl = new ivm();
+
+                    var track = db.TrackLists.FirstOrDefault(x => x.ID == item.ID).Location;
+                    track = @"\\51-DBA\radio\music\" + track.Substring(7);
+                    TagLib.File file = TagLib.File.Create(track);
+
+                    if (file.Tag.Pictures.Length >= 1)
+                    {
+                        tl.Art = Convert.ToBase64String(file.Tag.Pictures[0].Data.Data);
+                    }
+
+
+                    tl.artist = item.Artist;
+                    tl.album = item.Album;
+                    tl.tracknumber = item.TrackNumber;
+                    tl.title = item.Title;
+                    tl.duration = item.Duration.Substring(0, item.Duration.Length - 8);
+                    tl.genre = item.Genre;
+                    tl.location = item.Location;
+                    tl.ID = item.ID;
+                    tl.tracknumber = c;
+
+                    invm.indexview.Add(tl);
+
+                    player pl = new player();
+                    pl.artist = item.Artist;
+                    pl.album = item.Album;
+                    pl.tracknumber = item.TrackNumber;
+                    pl.title = item.Title;
+                    pl.duration = item.Duration.Substring(0, item.Duration.Length - 8);
+                    pl.genre = item.Genre;
+                    pl.location = item.Location;
+
+                    invm.StreamPlayer.Add(pl);
+
+                    c++;
+                }
+            }
+            else if (playlist == "rock")
+            {
+                var songs = db.TrackLists.Where(x => x.Genre.Contains("rock")).ToArray();
+                Shuffle(songs);
+                var tracks = songs.Take(15);
+
+                var hours = 0;
+                var minutes = 0;
+                var seconds = 0;
+
+                foreach (var item in tracks)
+                {
+                    string[] duration = item.Duration.Split(':', '.');
+                    hours = hours + Convert.ToInt32(duration[0]);
+                    minutes = minutes + Convert.ToInt32(duration[1]);
+                    seconds = seconds + Convert.ToInt32(duration[2]);
+                }
+                for (var i = seconds; i >= 60; i = i - 60)
+                {
+                    seconds = seconds - 60;
+                    minutes = minutes + 1;
+                }
+                for (var i = minutes; i >= 60; i = i - 60)
+                {
+                    minutes = minutes - 60;
+                    hours = hours + 1;
+                }
+                var timeframe = hours.ToString() + " hours " + minutes.ToString() + " minutes " + seconds.ToString() + " seconds";
+                invm.duration = timeframe;
+                invm.tracknumber = songs.Count();
+
+
+
+                var c = 1;
+                foreach (var item in tracks)
+                {
+                    ivm tl = new ivm();
+
+                    var track = db.TrackLists.FirstOrDefault(x => x.ID == item.ID).Location;
+                    track = @"\\51-DBA\radio\music\" + track.Substring(7);
+                    TagLib.File file = TagLib.File.Create(track);
+
+                    if (file.Tag.Pictures.Length >= 1)
+                    {
+                        tl.Art = Convert.ToBase64String(file.Tag.Pictures[0].Data.Data);
+                    }
+
+
+                    tl.artist = item.Artist;
+                    tl.album = item.Album;
+                    tl.tracknumber = item.TrackNumber;
+                    tl.title = item.Title;
+                    tl.duration = item.Duration.Substring(0, item.Duration.Length - 8);
+                    tl.genre = item.Genre;
+                    tl.location = item.Location;
+                    tl.ID = item.ID;
+                    tl.tracknumber = c;
+
+                    invm.indexview.Add(tl);
+
+                    player pl = new player();
+                    pl.artist = item.Artist;
+                    pl.album = item.Album;
+                    pl.tracknumber = item.TrackNumber;
+                    pl.title = item.Title;
+                    pl.duration = item.Duration.Substring(0, item.Duration.Length - 8);
+                    pl.genre = item.Genre;
+                    pl.location = item.Location;
+
+                    invm.StreamPlayer.Add(pl);
+
+                    c++;
+                }
+            }
+            else if (playlist == "punk")
+            {
+                var songs = db.TrackLists.Where(x => x.Genre.Contains("punk")).ToArray();
+                Shuffle(songs);
+                var tracks = songs.Take(15);
+
+                var hours = 0;
+                var minutes = 0;
+                var seconds = 0;
+
+                foreach (var item in tracks)
+                {
+                    string[] duration = item.Duration.Split(':', '.');
+                    hours = hours + Convert.ToInt32(duration[0]);
+                    minutes = minutes + Convert.ToInt32(duration[1]);
+                    seconds = seconds + Convert.ToInt32(duration[2]);
+                }
+                for (var i = seconds; i >= 60; i = i - 60)
+                {
+                    seconds = seconds - 60;
+                    minutes = minutes + 1;
+                }
+                for (var i = minutes; i >= 60; i = i - 60)
+                {
+                    minutes = minutes - 60;
+                    hours = hours + 1;
+                }
+                var timeframe = hours.ToString() + " hours " + minutes.ToString() + " minutes " + seconds.ToString() + " seconds";
+                invm.duration = timeframe;
+                invm.tracknumber = songs.Count();
+
+
+
+                var c = 1;
+                foreach (var item in tracks)
+                {
+                    ivm tl = new ivm();
+
+                    var track = db.TrackLists.FirstOrDefault(x => x.ID == item.ID).Location;
+                    track = @"\\51-DBA\radio\music\" + track.Substring(7);
+                    TagLib.File file = TagLib.File.Create(track);
+
+                    if (file.Tag.Pictures.Length >= 1)
+                    {
+                        tl.Art = Convert.ToBase64String(file.Tag.Pictures[0].Data.Data);
+                    }
+
+
+                    tl.artist = item.Artist;
+                    tl.album = item.Album;
+                    tl.tracknumber = item.TrackNumber;
+                    tl.title = item.Title;
+                    tl.duration = item.Duration.Substring(0, item.Duration.Length - 8);
+                    tl.genre = item.Genre;
+                    tl.location = item.Location;
+                    tl.ID = item.ID;
+                    tl.tracknumber = c;
+
+                    invm.indexview.Add(tl);
+
+                    player pl = new player();
+                    pl.artist = item.Artist;
+                    pl.album = item.Album;
+                    pl.tracknumber = item.TrackNumber;
+                    pl.title = item.Title;
+                    pl.duration = item.Duration.Substring(0, item.Duration.Length - 8);
+                    pl.genre = item.Genre;
+                    pl.location = item.Location;
+
+                    invm.StreamPlayer.Add(pl);
+
+                    c++;
+                }
+            }
+            else if (playlist == "folk")
+            {
+                var songs = db.TrackLists.Where(x => x.Genre.Contains("folk")).ToArray();
+                Shuffle(songs);
+                var tracks = songs.Take(15);
+
+                var hours = 0;
+                var minutes = 0;
+                var seconds = 0;
+
+                foreach (var item in tracks)
+                {
+                    string[] duration = item.Duration.Split(':', '.');
+                    hours = hours + Convert.ToInt32(duration[0]);
+                    minutes = minutes + Convert.ToInt32(duration[1]);
+                    seconds = seconds + Convert.ToInt32(duration[2]);
+                }
+                for (var i = seconds; i >= 60; i = i - 60)
+                {
+                    seconds = seconds - 60;
+                    minutes = minutes + 1;
+                }
+                for (var i = minutes; i >= 60; i = i - 60)
+                {
+                    minutes = minutes - 60;
+                    hours = hours + 1;
+                }
+                var timeframe = hours.ToString() + " hours " + minutes.ToString() + " minutes " + seconds.ToString() + " seconds";
+                invm.duration = timeframe;
+                invm.tracknumber = songs.Count();
+
+
+
+                var c = 1;
+                foreach (var item in tracks)
+                {
+                    ivm tl = new ivm();
+
+                    var track = db.TrackLists.FirstOrDefault(x => x.ID == item.ID).Location;
+                    track = @"\\51-DBA\radio\music\" + track.Substring(7);
+                    TagLib.File file = TagLib.File.Create(track);
+
+                    if (file.Tag.Pictures.Length >= 1)
+                    {
+                        tl.Art = Convert.ToBase64String(file.Tag.Pictures[0].Data.Data);
+                    }
+
+
+                    tl.artist = item.Artist;
+                    tl.album = item.Album;
+                    tl.tracknumber = item.TrackNumber;
+                    tl.title = item.Title;
+                    tl.duration = item.Duration.Substring(0, item.Duration.Length - 8);
+                    tl.genre = item.Genre;
+                    tl.location = item.Location;
+                    tl.ID = item.ID;
+                    tl.tracknumber = c;
+
+                    invm.indexview.Add(tl);
+
+                    player pl = new player();
+                    pl.artist = item.Artist;
+                    pl.album = item.Album;
+                    pl.tracknumber = item.TrackNumber;
+                    pl.title = item.Title;
+                    pl.duration = item.Duration.Substring(0, item.Duration.Length - 8);
+                    pl.genre = item.Genre;
+                    pl.location = item.Location;
+
+                    invm.StreamPlayer.Add(pl);
+
+                    c++;
+                }
+            }
+            else if (playlist == "indie")
+            {
+                var songs = db.TrackLists.Where(x => x.Genre.Contains("indie")).ToArray();
+                Shuffle(songs);
+                var tracks = songs.Take(15);
+
+                var hours = 0;
+                var minutes = 0;
+                var seconds = 0;
+
+                foreach (var item in tracks)
+                {
+                    string[] duration = item.Duration.Split(':', '.');
+                    hours = hours + Convert.ToInt32(duration[0]);
+                    minutes = minutes + Convert.ToInt32(duration[1]);
+                    seconds = seconds + Convert.ToInt32(duration[2]);
+                }
+                for (var i = seconds; i >= 60; i = i - 60)
+                {
+                    seconds = seconds - 60;
+                    minutes = minutes + 1;
+                }
+                for (var i = minutes; i >= 60; i = i - 60)
+                {
+                    minutes = minutes - 60;
+                    hours = hours + 1;
+                }
+                var timeframe = hours.ToString() + " hours " + minutes.ToString() + " minutes " + seconds.ToString() + " seconds";
+                invm.duration = timeframe;
+                invm.tracknumber = songs.Count();
+
+
+
+                var c = 1;
+                foreach (var item in tracks)
+                {
+                    ivm tl = new ivm();
+
+                    var track = db.TrackLists.FirstOrDefault(x => x.ID == item.ID).Location;
+                    track = @"\\51-DBA\radio\music\" + track.Substring(7);
+                    TagLib.File file = TagLib.File.Create(track);
+
+                    if (file.Tag.Pictures.Length >= 1)
+                    {
+                        tl.Art = Convert.ToBase64String(file.Tag.Pictures[0].Data.Data);
+                    }
+
+
+                    tl.artist = item.Artist;
+                    tl.album = item.Album;
+                    tl.tracknumber = item.TrackNumber;
+                    tl.title = item.Title;
+                    tl.duration = item.Duration.Substring(0, item.Duration.Length - 8);
+                    tl.genre = item.Genre;
+                    tl.location = item.Location;
+                    tl.ID = item.ID;
+                    tl.tracknumber = c;
+
+                    invm.indexview.Add(tl);
+
+                    player pl = new player();
+                    pl.artist = item.Artist;
+                    pl.album = item.Album;
+                    pl.tracknumber = item.TrackNumber;
+                    pl.title = item.Title;
+                    pl.duration = item.Duration.Substring(0, item.Duration.Length - 8);
+                    pl.genre = item.Genre;
+                    pl.location = item.Location;
+
+                    invm.StreamPlayer.Add(pl);
+
+                    c++;
+                }
+            }
+            else if (playlist == "hiphop")
+            {
+                var songs = db.TrackLists.Where(x => x.Genre.Contains("hip hop") || x.Genre.Contains("rap") || x.Genre.Contains("hip-hop")).ToArray();
+                Shuffle(songs);
+                var tracks = songs.Take(15);
+
+                var hours = 0;
+                var minutes = 0;
+                var seconds = 0;
+
+                foreach (var item in tracks)
+                {
+                    string[] duration = item.Duration.Split(':', '.');
+                    hours = hours + Convert.ToInt32(duration[0]);
+                    minutes = minutes + Convert.ToInt32(duration[1]);
+                    seconds = seconds + Convert.ToInt32(duration[2]);
+                }
+                for (var i = seconds; i >= 60; i = i - 60)
+                {
+                    seconds = seconds - 60;
+                    minutes = minutes + 1;
+                }
+                for (var i = minutes; i >= 60; i = i - 60)
+                {
+                    minutes = minutes - 60;
+                    hours = hours + 1;
+                }
+                var timeframe = hours.ToString() + " hours " + minutes.ToString() + " minutes " + seconds.ToString() + " seconds";
+                invm.duration = timeframe;
+                invm.tracknumber = songs.Count();
+
+
+
+                var c = 1;
+                foreach (var item in tracks)
+                {
+                    ivm tl = new ivm();
+
+                    var track = db.TrackLists.FirstOrDefault(x => x.ID == item.ID).Location;
+                    track = @"\\51-DBA\radio\music\" + track.Substring(7);
+                    TagLib.File file = TagLib.File.Create(track);
+
+                    if (file.Tag.Pictures.Length >= 1)
+                    {
+                        tl.Art = Convert.ToBase64String(file.Tag.Pictures[0].Data.Data);
+                    }
+
+
+                    tl.artist = item.Artist;
+                    tl.album = item.Album;
+                    tl.tracknumber = item.TrackNumber;
+                    tl.title = item.Title;
+                    tl.duration = item.Duration.Substring(0, item.Duration.Length - 8);
+                    tl.genre = item.Genre;
+                    tl.location = item.Location;
+                    tl.ID = item.ID;
+                    tl.tracknumber = c;
+
+                    invm.indexview.Add(tl);
+
+                    player pl = new player();
+                    pl.artist = item.Artist;
+                    pl.album = item.Album;
+                    pl.tracknumber = item.TrackNumber;
+                    pl.title = item.Title;
+                    pl.duration = item.Duration.Substring(0, item.Duration.Length - 8);
+                    pl.genre = item.Genre;
+                    pl.location = item.Location;
+
+                    invm.StreamPlayer.Add(pl);
+
+                    c++;
+                }
+            }
+            else if (playlist == "country")
+            {
+                var songs = db.TrackLists.Where(x => x.Genre.Contains("country")).ToArray();
+                Shuffle(songs);
+                var tracks = songs.Take(15);
+
+                var hours = 0;
+                var minutes = 0;
+                var seconds = 0;
+
+                foreach (var item in tracks)
+                {
+                    string[] duration = item.Duration.Split(':', '.');
+                    hours = hours + Convert.ToInt32(duration[0]);
+                    minutes = minutes + Convert.ToInt32(duration[1]);
+                    seconds = seconds + Convert.ToInt32(duration[2]);
+                }
+                for (var i = seconds; i >= 60; i = i - 60)
+                {
+                    seconds = seconds - 60;
+                    minutes = minutes + 1;
+                }
+                for (var i = minutes; i >= 60; i = i - 60)
+                {
+                    minutes = minutes - 60;
+                    hours = hours + 1;
+                }
+                var timeframe = hours.ToString() + " hours " + minutes.ToString() + " minutes " + seconds.ToString() + " seconds";
+                invm.duration = timeframe;
+                invm.tracknumber = songs.Count();
+
+
+
+                var c = 1;
+                foreach (var item in tracks)
+                {
+                    ivm tl = new ivm();
+
+                    var track = db.TrackLists.FirstOrDefault(x => x.ID == item.ID).Location;
+                    track = @"\\51-DBA\radio\music\" + track.Substring(7);
+                    TagLib.File file = TagLib.File.Create(track);
+
+                    if (file.Tag.Pictures.Length >= 1)
+                    {
+                        tl.Art = Convert.ToBase64String(file.Tag.Pictures[0].Data.Data);
+                    }
+
+
+                    tl.artist = item.Artist;
+                    tl.album = item.Album;
+                    tl.tracknumber = item.TrackNumber;
+                    tl.title = item.Title;
+                    tl.duration = item.Duration.Substring(0, item.Duration.Length - 8);
+                    tl.genre = item.Genre;
+                    tl.location = item.Location;
+                    tl.ID = item.ID;
+                    tl.tracknumber = c;
+
+                    invm.indexview.Add(tl);
+
+                    player pl = new player();
+                    pl.artist = item.Artist;
+                    pl.album = item.Album;
+                    pl.tracknumber = item.TrackNumber;
+                    pl.title = item.Title;
+                    pl.duration = item.Duration.Substring(0, item.Duration.Length - 8);
+                    pl.genre = item.Genre;
+                    pl.location = item.Location;
+
+                    invm.StreamPlayer.Add(pl);
+
+                    c++;
+                }
+            }
             else
             {
                 var songs = db.PlaylistNames.Where(x => x.PlaylistName1 == playlist).ToArray();

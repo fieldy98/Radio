@@ -863,6 +863,7 @@
     <Content Include="Views\Browse\GenreArtist.cshtml" />
     <Content Include="Views\Playlist\PlaylistRemove.cshtml" />
     <Content Include="Views\Upload\Upload.cshtml" />
+    <Content Include="Views\Playlist\RandomPlaylist.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,159 @@
+﻿@model radio.ViewModels.IndexViewModel
+
+@{
+    ViewBag.Title = "Playlist";
+}
+
+@{
+    int i = 0;
+}
+
+There are @Model.tracknumber songs lasting @Model.duration.
+<div class="row panel">
+    <div class="panel-body">
+        <div class="col-xs-12">
+            <table class="table" id="AlbumTable">
+                <thead>
+                    <tr>
+                        <th>
+                            Position
+                        </th>
+                        <th>
+                            Artist
+                        </th>
+                        <th>
+                            Title
+                        </th>
+                        <th class="hidden-xs">
+                            Length
+                        </th>
+                        <th>
+                            <a class="btn btn-default" href="@Url.Action("Playlist", "Playlist", new { username = User.Identity.Name, playlist = Model.Playlist, shuffled = "yes" })"><span class="glyphicon glyphicon-random"></span></a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.indexview)
+            {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.tracknumber)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.artist)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.title)
+                            </td>
+                            <td class="hidden-xs">
+                                @Html.DisplayFor(modelItem => item.duration)
+                            </td>
+                            <td class="col-sm-3">
+                                <div class="btn-group" role="group" aria-label="Basic example">
+                                    <button type="button" class="btn btn-default" onclick="window.sm2BarPlayers[0].actions.play(@i);"><span class="glyphicon glyphicon-play"></span></button>
+                                    @if (item.Art != null)
+                                    {
+                                        <button type="button" class="btn btn-default" data-toggle="modal" data-target=".@item.ID"><span class="glyphicon glyphicon-picture"></span></button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-default disabled" data-toggle="modal" data-target=".@item.ID"><span class="glyphicon glyphicon-picture"></span></button>
+                                    }
+                                    <a class="btn btn-default" href="@Url.Action("AddToPlaylist", "Playlist", new { id = item.ID })"><span class="glyphicon glyphicon-plus"></span></a>
+                                </div>
+                            </td>
+                        </tr>
+                        i++;
+                        <div class="modal fade @item.ID" tabindex="-1" role="dialog" aria-labelledby="@item.ID">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <div class="col-sm-12">
+                                            @if (item.Art != null)
+                                            {
+                                                <img style="max-width:100%;" src="data:image/png;base64,@item.Art" alt="@item.album" title="@item.album" />
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="UpdatePlay">
+    @Html.Partial("~/Views/Shared/_Player.cshtml")
+</div>
+
+
+@section Scripts{
+    <script>
+        $(function () {
+            $(".table-class tr").each(function () {
+                $(this).find('td:eq(2)').addClass("hidden-xs");
+            });
+        });
+    </script>
+
+    @*
+        Call DataTables Dependencies
+    *@
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/DataTables/dataTables.bootstrap.min.js"></script>
+    <script src="~/Scripts/DataTables/dataTables.buttons.min.js"></script>
+    <script src="~/Scripts/DataTables/buttons.bootstrap.min.js"></script>
+    <script src="~/Scripts/DataTables/buttons.html5.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <script src="http://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Setup DataTable
+            $('#AlbumTable').DataTable({
+                dom: 'lfrti',
+                "bPaginate": false,
+                "bLengthChange": false,
+                "bFilter": true,
+                "bInfo": false,
+                "bAutoWidth": false,
+                "searching": false,
+                lengthMenu: [
+            [-1],
+            ['Show all']
+                ],
+                buttons: [
+                ]
+            });
+            // Pull Search Field to the right
+            $("#AlbumTable_filter").addClass("pull-right");
+        });
+
+        function LoadSong(element) {
+            var song = $(element).val();
+            $.ajax({
+                type: 'Post',
+                url: '@Url.Action("Album", "Home")',
+                data: { ID: song },
+                success: function (data) {
+                    $("#UpdatePlaylist").append(data);
+                    //alert("success");
+                },
+                error: function (data) {
+                    alert("error");
+                }
+            })
+
+        };
+        $('#myModal').on('shown.bs.modal', function () {
+            $('#myInput').focus()
+        })
+    </script>
+}

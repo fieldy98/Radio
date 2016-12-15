@@ -41,6 +41,108 @@ namespace radio.Controllers
             List<ivm> ivm = new List<ivm>();
             List<player> steam = new List<player>();
             var thisweek = DateTime.Now.AddDays(-6);
+
+                var songs = db.PlaylistNames.Where(x => x.PlaylistName1 == playlist).ToArray();
+
+                if (shuffled != null)
+                {
+                    Shuffle(songs);
+                }
+
+
+                var hours = 0;
+                var minutes = 0;
+                var seconds = 0;
+
+                foreach (var item in songs)
+                {
+                    string[] duration = item.Duration.Split(':', '.');
+                    hours = hours + Convert.ToInt32(duration[0]);
+                    minutes = minutes + Convert.ToInt32(duration[1]);
+                    seconds = seconds + Convert.ToInt32(duration[2]);
+                }
+                for (var i = seconds; i >= 60; i = i - 60)
+                {
+                    seconds = seconds - 60;
+                    minutes = minutes + 1;
+                }
+                for (var i = minutes; i >= 60; i = i - 60)
+                {
+                    minutes = minutes - 60;
+                    hours = hours + 1;
+                }
+                var timeframe = hours.ToString() + " hours " + minutes.ToString() + " minutes " + seconds.ToString() + " seconds";
+                invm.duration = timeframe;
+                invm.tracknumber = songs.Count();
+
+
+
+                var c = 1;
+                foreach (var item in songs)
+                {
+                    ivm tl = new ivm();
+
+                    var track = db.PlaylistNames.FirstOrDefault(x => x.ID == item.ID).Location;
+                    track = @"\\51-DBA\radio\music\" + track.Substring(7);
+                    TagLib.File file = TagLib.File.Create(track);
+
+                    if (file.Tag.Pictures.Length >= 1)
+                    {
+                        tl.Art = Convert.ToBase64String(file.Tag.Pictures[0].Data.Data);
+                    }
+
+
+                    tl.artist = item.Artist;
+                    tl.album = item.Album;
+                    tl.tracknumber = item.TrackNumber;
+                    tl.title = item.Title;
+                    tl.duration = item.Duration.Substring(0, item.Duration.Length - 8);
+                    tl.genre = item.Genre;
+                    tl.location = item.Location;
+                    tl.ID = item.ID;
+                    tl.tracknumber = c;
+
+                    invm.indexview.Add(tl);
+
+                    player pl = new player();
+                    pl.artist = item.Artist;
+                    pl.album = item.Album;
+                    pl.tracknumber = item.TrackNumber;
+                    pl.title = item.Title;
+                    pl.duration = item.Duration.Substring(0, item.Duration.Length - 8);
+                    pl.genre = item.Genre;
+                    pl.location = item.Location;
+
+                    invm.StreamPlayer.Add(pl);
+
+                    c++;
+                }
+            
+
+            var sidebar = db.PlaylistNames.Select(x => x.PlaylistName1).Distinct().ToList();
+            foreach (var item in sidebar)
+            {
+                playlist pl = new playlist();
+                pl.Playlist = item;
+
+                invm.PlayList.Add(pl);
+            }
+
+            invm.Playlist = playlist;
+            invm.PlayList = invm.PlayList.ToList();
+
+            invm.indexview = invm.indexview.ToList();
+            invm.StreamPlayer = invm.StreamPlayer.ToList();
+            return View(invm);
+        }
+
+        // GET: Playlist
+        public ActionResult RandomPlaylist(string playlist, string shuffled)
+        {
+            IndexViewModel invm = new IndexViewModel();
+            List<ivm> ivm = new List<ivm>();
+            List<player> steam = new List<player>();
+            var thisweek = DateTime.Now.AddDays(-6);
             if (playlist == "thisweek")
             {
                 var songs = db.TrackLists.Where(x => x.TimeAdded >= thisweek).ToArray();
@@ -123,7 +225,7 @@ namespace radio.Controllers
             {
                 var songs = db.TrackLists.Where(x => x.Genre.Contains("metal") || x.Genre.Contains("stoner rock") || x.Genre.Contains("doom") || x.Genre.Contains("visual kei") || x.Genre.Contains("nintendocore") || x.Genre.Contains("grindcore") || x.Genre.Contains("industrial")).ToArray();
                 Shuffle(songs);
-                var tracks  = songs.Take(15);
+                var tracks = songs.Take(15);
 
                 var hours = 0;
                 var minutes = 0;
@@ -790,7 +892,7 @@ namespace radio.Controllers
             {
                 var genre = db.PlaylistNames.Distinct().ToArray();
                 Shuffle(genre);
-                var genre1 = genre.Where(x=>x.Genre != null).FirstOrDefault().Genre;
+                var genre1 = genre.Where(x => x.Genre != null).FirstOrDefault().Genre;
                 Shuffle(genre);
                 var genre2 = genre.Where(x => x.Genre != null).FirstOrDefault().Genre;
                 Shuffle(genre);
@@ -963,8 +1065,6 @@ namespace radio.Controllers
             invm.StreamPlayer = invm.StreamPlayer.ToList();
             return View(invm);
         }
-
-
 
         public ActionResult PlaylistRemove(int? id)
         {

@@ -86,10 +86,7 @@
                                     </ul>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Catalog", "Home", new { artist = "random" })">Random Artist</a>
-                                </li>
-                                <li>
-                                    <a href="@Url.Action("Album", "Home", new { album = "random" })">Random Album</a>
+                                    <a href="@Url.Action("Playlist", "Playlist", new { playlist = "predict" })">Songs You Might Like</a>
                                 </li>
                                 <li>
                                     <a href="@Url.Action("Playlist", "Playlist", new { playlist = "thisweek" })">New Songs This Week</a>
@@ -104,6 +101,12 @@
                             <ul class="dropdown-menu">
                                 <li>
                                     @Html.ActionLink("Genre", "Genre", "Browse")
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Catalog", "Home", new { artist = "random" })">Random Artist</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Album", "Home", new { album = "random" })">Random Album</a>
                                 </li>
                             </ul>
                         </li>

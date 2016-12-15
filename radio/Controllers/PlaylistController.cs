@@ -780,6 +780,7 @@ namespace radio.Controllers
                     pl.genre = item.Genre;
                     pl.location = item.Location;
 
+
                     invm.StreamPlayer.Add(pl);
 
                     c++;

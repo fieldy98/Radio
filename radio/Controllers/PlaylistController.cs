@@ -137,7 +137,7 @@ namespace radio.Controllers
         }
 
         // GET: Playlist
-        public ActionResult RandomPlaylist(string playlist, string shuffled)
+        public ActionResult RandomPlaylist(string playlist, string basedOn, string shuffled)
         {
             IndexViewModel invm = new IndexViewModel();
             List<ivm> ivm = new List<ivm>();
@@ -967,11 +967,11 @@ namespace radio.Controllers
             {
                 var genre = db.PlaylistNames.Distinct().ToArray();
                 Shuffle(genre);
-                var genre1 = genre.Where(x => x.Genre != null).FirstOrDefault().Genre;
+                var genre1 = genre.Where(x => x.Genre != null && x.PlaylistName1 == basedOn).FirstOrDefault().Genre;
                 Shuffle(genre);
-                var genre2 = genre.Where(x => x.Genre != null).FirstOrDefault().Genre;
+                var genre2 = genre.Where(x => x.Genre != null && x.PlaylistName1 == basedOn).FirstOrDefault().Genre;
                 Shuffle(genre);
-                var genre3 = genre.Where(x => x.Genre != null).FirstOrDefault().Genre;
+                var genre3 = genre.Where(x => x.Genre != null && x.PlaylistName1 == basedOn).FirstOrDefault().Genre;
 
                 var songs = db.TrackLists.Where(x => x.Genre == genre1 || x.Genre == genre2 || x.Genre == genre3).ToArray();
                 Shuffle(songs);

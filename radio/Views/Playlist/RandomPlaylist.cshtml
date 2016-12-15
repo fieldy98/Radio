@@ -25,6 +25,9 @@ There are @Model.tracknumber songs lasting @Model.duration.
                             Title
                         </th>
                         <th class="hidden-xs">
+                            Genre
+                        </th>
+                        <th class="hidden-xs">
                             Length
                         </th>
                         <th>
@@ -44,6 +47,9 @@ There are @Model.tracknumber songs lasting @Model.duration.
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.title)
+                            </td>
+                            <td class="hidden-xs">
+                                @Html.DisplayFor(modelItem => item.genre)
                             </td>
                             <td class="hidden-xs">
                                 @Html.DisplayFor(modelItem => item.duration)

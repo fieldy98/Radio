@@ -91,47 +91,59 @@ namespace radio.Controllers
             IndexViewModel invm = new IndexViewModel();
             List<ivm> ivm = new List<ivm>();
             List<player> steam = new List<player>();
-            var albums = db.TrackLists.Where(x => x.Artist == artist).GroupBy(x=>x.Album).ToList();
-            invm.artist = artist;
 
-            foreach (var item in albums)
+
+            if (artist == "random")
             {
-                ivm tl = new ivm();
-                
-                tl.album = item.Key;
-                tl.artist = db.TrackLists.FirstOrDefault(x=>x.Artist == artist).Artist;
-                tl.tracknumber = db.TrackLists.Where(x => x.Album == item.Key).Count();
+                var TrackArtists = db.TrackLists.ToArray();
+                Shuffle(TrackArtists);
+                artist = TrackArtists.FirstOrDefault().Artist;
+            }
 
-                var track = db.TrackLists.FirstOrDefault(x => x.Album == tl.album && x.Artist == artist).Location;
-                track = @"\\51-DBA\radio\music\" + track.Substring(7);
-                TagLib.File file = TagLib.File.Create(track);
+                var albums = db.TrackLists.Where(x => x.Artist == artist).GroupBy(x => x.Album).ToList();
 
-                if (file.Tag.Pictures.Length >= 1)
+                invm.artist = artist;
+
+                foreach (var item in albums)
                 {
-                    tl.Art = Convert.ToBase64String(file.Tag.Pictures[0].Data.Data);
+                    ivm tl = new ivm();
+
+                    tl.album = item.Key;
+                    tl.artist = db.TrackLists.FirstOrDefault(x => x.Artist == artist).Artist;
+                    tl.tracknumber = db.TrackLists.Where(x => x.Album == item.Key).Count();
+
+                    var track = db.TrackLists.FirstOrDefault(x => x.Album == tl.album && x.Artist == artist).Location;
+                    track = @"\\51-DBA\radio\music\" + track.Substring(7);
+                    TagLib.File file = TagLib.File.Create(track);
+
+                    if (file.Tag.Pictures.Length >= 1)
+                    {
+                        tl.Art = Convert.ToBase64String(file.Tag.Pictures[0].Data.Data);
+                    }
+
+                    invm.indexview.Add(tl);
                 }
 
-                invm.indexview.Add(tl);
-            }
+                var artists = db.TrackLists.Where(x => x.Artist == artist).OrderBy(x => x.Album).ToArray();
+                if (shuffled != null)
+                {
+                    Shuffle(artists);
+                }
+                foreach (var item in artists)
+                {
+                    player tl = new player();
+                    tl.artist = item.Artist;
+                    tl.album = item.Album;
+                    tl.tracknumber = item.TrackNumber;
+                    tl.title = item.Title;
+                    tl.duration = item.Duration.Substring(0, item.Duration.Length - 8);
+                    tl.genre = item.Genre;
+                    tl.location = item.Location;
 
-            var artists = db.TrackLists.Where(x => x.Artist == artist).OrderBy(x=>x.Album).ToArray();
-            if (shuffled != null)
-            {
-                Shuffle(artists);
-            }
-            foreach (var item in artists)
-            {
-                player tl = new player();
-                tl.artist = item.Artist;
-                tl.album = item.Album;
-                tl.tracknumber = item.TrackNumber;
-                tl.title = item.Title;
-                tl.duration = item.Duration.Substring(0, item.Duration.Length - 8);
-                tl.genre = item.Genre;
-                tl.location = item.Location;
-
-                invm.StreamPlayer.Add(tl);
-            }
+                    invm.StreamPlayer.Add(tl);
+                }
+            
+            
 
             var sidebar = db.PlaylistNames.Select(x => x.PlaylistName1).Distinct().ToList();
             foreach (var item in sidebar)
@@ -154,6 +166,14 @@ namespace radio.Controllers
             IndexViewModel invm = new IndexViewModel();
             List<ivm> ivm = new List<ivm>();
             List<player> steam = new List<player>();
+            if(album == "random")
+            {
+                var TrackArtists = db.TrackLists.ToArray();
+                Shuffle(TrackArtists);
+                artist = TrackArtists.FirstOrDefault().Artist;
+                album = TrackArtists.FirstOrDefault().Album;
+            }
+
             var songs = db.TrackLists.Where(x => x.Album == album && x.Artist == artist).OrderBy(x => x.TrackNumber).ToArray();
             var track = db.TrackLists.FirstOrDefault(x => x.Album == album && x.Artist == artist).Location;
             track = @"\\51-DBA\radio\music\" + track.Substring(7);

@@ -193,7 +193,7 @@ namespace radio.Controllers
                     c++;
                 }
             }
-            else if (playlist == "electronic")
+            else if (playlist == "electornic")
             {
                 var songs = db.TrackLists.Where(x => x.Genre.Contains("elec")).ToArray();
                 Shuffle(songs);

@@ -973,7 +973,7 @@ namespace radio.Controllers
                 Shuffle(genre);
                 var genre3 = genre.Where(x => x.Genre != null && x.PlaylistName1 == basedOn).FirstOrDefault().Genre;
 
-                var songs = db.TrackLists.Where(x => x.Genre == genre1 || x.Genre == genre2 || x.Genre == genre3 && !x.Title.Contains("interview") && !x.Title.Contains("skit") && !x.Title.Contains("intro") && !x.Title.Contains("outro") && !x.Title.Contains("interlude")).ToArray();
+                var songs = db.TrackLists.Where(x => !(x.Title.Contains("interview") && x.Title.Contains("skit") && x.Title.Contains("intro") && x.Title.Contains("outro") && x.Title.Contains("interlude")) && x.Genre == genre1 || x.Genre == genre2 || x.Genre == genre3).ToArray();
                 Shuffle(songs);
                 var tracks = songs.Take(15);
 

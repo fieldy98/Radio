@@ -223,7 +223,7 @@ namespace radio.Controllers
             }
             else if (playlist == "metal")
             {
-                var songs = db.TrackLists.Where(x => x.Genre.Contains("metal") || x.Genre.Contains("stoner rock") || x.Genre.Contains("doom") || x.Genre.Contains("visual kei") || x.Genre.Contains("nintendocore") || x.Genre.Contains("grindcore") || x.Genre.Contains("industrial")).ToArray();
+                var songs = db.TrackLists.Where(x => x.Genre.Contains("metal") || x.Genre.Contains("stoner rock") || x.Genre.Contains("doom") || x.Genre.Contains("visual kei") || x.Genre.Contains("nintendocore") || x.Genre.Contains("grindcore") || x.Genre.Contains("industrial") && !x.Title.Contains("interview") && !x.Title.Contains("skit") && !x.Title.Contains("intro") && !x.Title.Contains("outro") && !x.Title.Contains("interlude")).ToArray();
                 Shuffle(songs);
                 var tracks = songs.Take(15);
 
@@ -297,7 +297,7 @@ namespace radio.Controllers
             }
             else if (playlist == "electornic")
             {
-                var songs = db.TrackLists.Where(x => x.Genre.Contains("elec")).ToArray();
+                var songs = db.TrackLists.Where(x => x.Genre.Contains("elec") && !x.Title.Contains("interview") && !x.Title.Contains("skit") && !x.Title.Contains("intro") && !x.Title.Contains("outro") && !x.Title.Contains("interlude")).ToArray();
                 Shuffle(songs);
                 var tracks = songs.Take(15);
 
@@ -445,7 +445,7 @@ namespace radio.Controllers
             }
             else if (playlist == "rock")
             {
-                var songs = db.TrackLists.Where(x => x.Genre.Contains("rock")).ToArray();
+                var songs = db.TrackLists.Where(x => x.Genre.Contains("rock") && !x.Title.Contains("interview") && !x.Title.Contains("skit") && !x.Title.Contains("intro") && !x.Title.Contains("outro") && !x.Title.Contains("interlude")).ToArray();
                 Shuffle(songs);
                 var tracks = songs.Take(15);
 
@@ -519,7 +519,7 @@ namespace radio.Controllers
             }
             else if (playlist == "punk")
             {
-                var songs = db.TrackLists.Where(x => x.Genre.Contains("punk")).ToArray();
+                var songs = db.TrackLists.Where(x => x.Genre.Contains("punk") && !x.Title.Contains("interview") && !x.Title.Contains("skit") && !x.Title.Contains("intro") && !x.Title.Contains("outro") && !x.Title.Contains("interlude")).ToArray();
                 Shuffle(songs);
                 var tracks = songs.Take(15);
 
@@ -593,7 +593,7 @@ namespace radio.Controllers
             }
             else if (playlist == "folk")
             {
-                var songs = db.TrackLists.Where(x => x.Genre.Contains("folk")).ToArray();
+                var songs = db.TrackLists.Where(x => x.Genre.Contains("folk") && !x.Title.Contains("interview") && !x.Title.Contains("skit") && !x.Title.Contains("intro") && !x.Title.Contains("outro") && !x.Title.Contains("interlude")).ToArray();
                 Shuffle(songs);
                 var tracks = songs.Take(15);
 
@@ -667,7 +667,7 @@ namespace radio.Controllers
             }
             else if (playlist == "indie")
             {
-                var songs = db.TrackLists.Where(x => x.Genre.Contains("indie")).ToArray();
+                var songs = db.TrackLists.Where(x => x.Genre.Contains("indie") && !x.Title.Contains("interview") && !x.Title.Contains("skit") && !x.Title.Contains("intro") && !x.Title.Contains("outro") && !x.Title.Contains("interlude")).ToArray();
                 Shuffle(songs);
                 var tracks = songs.Take(15);
 
@@ -741,7 +741,7 @@ namespace radio.Controllers
             }
             else if (playlist == "hiphop")
             {
-                var songs = db.TrackLists.Where(x => x.Genre.Contains("hip hop") || x.Genre.Contains("rap") || x.Genre.Contains("hip-hop")).ToArray();
+                var songs = db.TrackLists.Where(x => x.Genre.Contains("hip hop") || x.Genre.Contains("rap") || x.Genre.Contains("hip-hop") && !x.Title.Contains("interview") && !x.Title.Contains("skit") && !x.Title.Contains("intro") && !x.Title.Contains("outro") && !x.Title.Contains("interlude")).ToArray();
                 Shuffle(songs);
                 var tracks = songs.Take(15);
 
@@ -815,7 +815,7 @@ namespace radio.Controllers
             }
             else if (playlist == "country")
             {
-                var songs = db.TrackLists.Where(x => x.Genre.Contains("country")).ToArray();
+                var songs = db.TrackLists.Where(x => x.Genre.Contains("country") && !x.Title.Contains("interview") && !x.Title.Contains("skit") && !x.Title.Contains("intro") && !x.Title.Contains("outro") && !x.Title.Contains("interlude")).ToArray();
                 Shuffle(songs);
                 var tracks = songs.Take(15);
 
@@ -890,7 +890,7 @@ namespace radio.Controllers
             }
             else if (playlist == "christmas")
             {
-                var songs = db.TrackLists.Where(x => x.Album.Contains("christmas") || x.Title.Contains("christmas") || x.Album.Contains("Oi to the World") || x.Title.Contains("oi to the world")).ToArray();
+                var songs = db.TrackLists.Where(x => x.Album.Contains("christmas") || x.Title.Contains("christmas") || x.Album.Contains("Oi to the World") || x.Title.Contains("oi to the world") && !x.Title.Contains("interview") && !x.Title.Contains("skit") && !x.Title.Contains("intro") && !x.Title.Contains("outro") && !x.Title.Contains("interlude")).ToArray();
                 Shuffle(songs);
                 var tracks = songs.Take(15);
 
@@ -973,7 +973,7 @@ namespace radio.Controllers
                 Shuffle(genre);
                 var genre3 = genre.Where(x => x.Genre != null && x.PlaylistName1 == basedOn).FirstOrDefault().Genre;
 
-                var songs = db.TrackLists.Where(x => x.Genre == genre1 || x.Genre == genre2 || x.Genre == genre3).ToArray();
+                var songs = db.TrackLists.Where(x => x.Genre == genre1 || x.Genre == genre2 || x.Genre == genre3 && !x.Title.Contains("interview") && !x.Title.Contains("skit") && !x.Title.Contains("intro") && !x.Title.Contains("outro") && !x.Title.Contains("interlude")).ToArray();
                 Shuffle(songs);
                 var tracks = songs.Take(15);
 

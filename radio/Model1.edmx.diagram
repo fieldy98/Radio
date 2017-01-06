@@ -7,6 +7,8 @@
       <Diagram DiagramId="edca2fc762e1461c8ca65322585c3957" Name="Diagram1">
         <EntityTypeShape EntityType="SongListModel.PlaylistName" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SongListModel.TrackList" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SongListModel.PlayCount" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="SongListModel.History" Width="1.5" PointX="7.125" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

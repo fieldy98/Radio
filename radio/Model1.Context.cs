@@ -27,5 +27,7 @@ namespace radio
     
         public virtual DbSet<PlaylistName> PlaylistNames { get; set; }
         public virtual DbSet<TrackList> TrackLists { get; set; }
+        public virtual DbSet<PlayCount> PlayCounts { get; set; }
+        public virtual DbSet<History> Histories { get; set; }
     }
 }

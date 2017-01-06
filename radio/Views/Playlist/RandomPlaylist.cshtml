@@ -16,16 +16,17 @@ There are @Model.tracknumber songs lasting @Model.duration.
                 <thead>
                     <tr>
                         <th>
-                            Position
+                            <div class="hidden-xs">Position</div>
+                            <div class="visible-xs">#</div>
                         </th>
                         <th>
                             Artist
                         </th>
                         <th>
-                            Title
-                        </th>
-                        <th class="hidden-xs">
                             Album
+                        </th>
+                        <th>
+                            Title
                         </th>
                         <th class="hidden-xs">
                             Length
@@ -46,31 +47,48 @@ There are @Model.tracknumber songs lasting @Model.duration.
                                 @Html.DisplayFor(modelItem => item.artist)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.title)
+                                <div class="hidden-xs">
+                                    <a style="color:black" href="@Url.Action("Album", "Home", new { album = item.album, artist = item.artist })">@item.album</a>
+                                </div>
+                                <a class="btn btn-default visible-xs" href="@Url.Action("Album", "Home", new { album = item.album, artist = item.artist })"><span class="glyphicon glyphicon-folder-open"></span></a>
                             </td>
-                            <td class="hidden-xs">
-                                @Html.DisplayFor(modelItem => item.album)
+                            <td>
+                                @Html.DisplayFor(modelItem => item.title)
                             </td>
                             <td class="hidden-xs">
                                 @Html.DisplayFor(modelItem => item.duration)
                             </td>
-                            <td class="col-sm-3">
+                            <td class="col-sm-4">
                                 <div class="btn-group" role="group" aria-label="Basic example">
                                     <button type="button" class="btn btn-default" onclick="window.sm2BarPlayers[0].actions.play(@i);"><span class="glyphicon glyphicon-play"></span></button>
+                                    <script>
+                                        window.sm2BarPlayers.on = {
+                                            finish: function (player) {
+                                                var test = $(window.sm2BarPlayers[0].playlistController.getItem(player.ID)).prop('outerHTML').substr(8,6);
+                                                $.ajax({
+                                                    type: 'Post',
+                                                    url: '@Url.Action("_Playcount", "Home")',
+                                                    data: { ID: test },
+                                                    success:
+                                                        console.log(test)
+                                                })
+                                            }
+                                        }
+                                    </script>
                                     @if (item.Art != null)
                                     {
-                                        <button type="button" class="btn btn-default" data-toggle="modal" data-target=".@item.ID"><span class="glyphicon glyphicon-picture"></span></button>
+                                        <button type="button" class="btn btn-default" data-toggle="modal" data-target=".@item.tracknumber"><span class="glyphicon glyphicon-picture"></span></button>
                                     }
                                     else
                                     {
-                                        <button type="button" class="btn btn-default disabled" data-toggle="modal" data-target=".@item.ID"><span class="glyphicon glyphicon-picture"></span></button>
+                                        <button type="button" class="btn btn-default disabled" data-toggle="modal" data-target=".@item.tracknumber"><span class="glyphicon glyphicon-picture"></span></button>
                                     }
-                                    <a class="btn btn-default" href="@Url.Action("AddToPlaylist", "Playlist", new { id = item.ID })"><span class="glyphicon glyphicon-plus"></span></a>
-                                </div>
+                                    @*<a class="btn btn-default" href="@Url.Action("AddToPlaylist", "Playlist", new { id = item.ID })"><span class="glyphicon glyphicon-plus"></span></a>*@
+                                    <button type="button" class="btn btn-default modal('toggle')" data-toggle="modal" data-target="#@item.ID" id="@item.ID" onclick="addToPlaylist(this.id, this.id)"><span class="glyphicon glyphicon-plus"></span></button>
+                               </div>
                             </td>
                         </tr>
-                        i++;
-                        <div class="modal fade @item.ID" tabindex="-1" role="dialog" aria-labelledby="@item.ID">
+                        <div class="modal fade @item.tracknumber" tabindex="-1" role="dialog" aria-labelledby="@item.tracknumber">
                             <div class="modal-dialog modal-lg" role="document">
                                 <div class="modal-content">
                                     <div class="modal-body">
@@ -87,6 +105,21 @@ There are @Model.tracknumber songs lasting @Model.duration.
                                 </div>
                             </div>
                         </div>
+                        <div class="modal fade" id="@item.ID" tabindex="-1" role="dialog" aria-labelledby="@item.ID">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <div class="col-sm-12" id="addToPlaylist">
+                                                
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        i++;
                     }
                 </tbody>
             </table>
@@ -158,8 +191,23 @@ There are @Model.tracknumber songs lasting @Model.duration.
             })
 
         };
+
+        function addToPlaylist(clickedId, modalID) {
+            $.ajax({
+                url: '@Url.Action("_AddToPlaylist", "Playlist")',
+                type: 'GET',
+                data: { id: clickedId, modal: modalID },
+                success: function (data) {
+                    $('#addToPlaylist').html(data);
+                },
+                error: function () {
+                    alert("error");
+                }
+            })
+        };
+
         $('#myModal').on('shown.bs.modal', function () {
-            $('#myInput').focus()
+            $('#myInput').focus();
         })
     </script>
 }

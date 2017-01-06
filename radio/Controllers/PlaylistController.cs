@@ -112,8 +112,9 @@ namespace radio.Controllers
                     pl.duration = item.Duration.Substring(0, item.Duration.Length - 8);
                     pl.genre = item.Genre;
                     pl.location = item.Location;
+                pl.ID = item.TL_ID;
 
-                    invm.StreamPlayer.Add(pl);
+                invm.StreamPlayer.Add(pl);
 
                     c++;
                 }
@@ -215,6 +216,7 @@ namespace radio.Controllers
                     pl.duration = item.Duration.Substring(0, item.Duration.Length - 8);
                     pl.genre = item.Genre;
                     pl.location = item.Location;
+                    pl.ID = item.ID;
 
                     invm.StreamPlayer.Add(pl);
 
@@ -289,6 +291,7 @@ namespace radio.Controllers
                     pl.duration = item.Duration.Substring(0, item.Duration.Length - 8);
                     pl.genre = item.Genre;
                     pl.location = item.Location;
+                    pl.ID = item.ID;
 
                     invm.StreamPlayer.Add(pl);
 
@@ -363,6 +366,7 @@ namespace radio.Controllers
                     pl.duration = item.Duration.Substring(0, item.Duration.Length - 8);
                     pl.genre = item.Genre;
                     pl.location = item.Location;
+                    pl.ID = item.ID;
 
                     invm.StreamPlayer.Add(pl);
 
@@ -437,6 +441,7 @@ namespace radio.Controllers
                     pl.duration = item.Duration.Substring(0, item.Duration.Length - 8);
                     pl.genre = item.Genre;
                     pl.location = item.Location;
+                    pl.ID = item.ID;
 
                     invm.StreamPlayer.Add(pl);
 
@@ -511,6 +516,7 @@ namespace radio.Controllers
                     pl.duration = item.Duration.Substring(0, item.Duration.Length - 8);
                     pl.genre = item.Genre;
                     pl.location = item.Location;
+                    pl.ID = item.ID;
 
                     invm.StreamPlayer.Add(pl);
 
@@ -585,6 +591,7 @@ namespace radio.Controllers
                     pl.duration = item.Duration.Substring(0, item.Duration.Length - 8);
                     pl.genre = item.Genre;
                     pl.location = item.Location;
+                    pl.ID = item.ID;
 
                     invm.StreamPlayer.Add(pl);
 
@@ -659,6 +666,7 @@ namespace radio.Controllers
                     pl.duration = item.Duration.Substring(0, item.Duration.Length - 8);
                     pl.genre = item.Genre;
                     pl.location = item.Location;
+                    pl.ID = item.ID;
 
                     invm.StreamPlayer.Add(pl);
 
@@ -733,6 +741,7 @@ namespace radio.Controllers
                     pl.duration = item.Duration.Substring(0, item.Duration.Length - 8);
                     pl.genre = item.Genre;
                     pl.location = item.Location;
+                    pl.ID = item.ID;
 
                     invm.StreamPlayer.Add(pl);
 
@@ -807,6 +816,7 @@ namespace radio.Controllers
                     pl.duration = item.Duration.Substring(0, item.Duration.Length - 8);
                     pl.genre = item.Genre;
                     pl.location = item.Location;
+                    pl.ID = item.ID;
 
                     invm.StreamPlayer.Add(pl);
 
@@ -881,6 +891,7 @@ namespace radio.Controllers
                     pl.duration = item.Duration.Substring(0, item.Duration.Length - 8);
                     pl.genre = item.Genre;
                     pl.location = item.Location;
+                    pl.ID = item.ID;
 
 
                     invm.StreamPlayer.Add(pl);
@@ -956,6 +967,7 @@ namespace radio.Controllers
                     pl.duration = item.Duration.Substring(0, item.Duration.Length - 8);
                     pl.genre = item.Genre;
                     pl.location = item.Location;
+                    pl.ID = item.ID;
 
 
                     invm.StreamPlayer.Add(pl);
@@ -974,6 +986,7 @@ namespace radio.Controllers
                 var genre3 = genre.Where(x => x.Genre != null && x.PlaylistName1 == basedOn).FirstOrDefault().Genre;
 
                 var songs = db.TrackLists.Where(x => !(x.Title.Contains("interview") && x.Title.Contains("skit") && x.Title.Contains("intro") && x.Title.Contains("outro") && x.Title.Contains("interlude")) && x.Genre == genre1 || x.Genre == genre2 || x.Genre == genre3).ToArray();
+
                 Shuffle(songs);
                 var tracks = songs.Take(15);
 
@@ -1039,6 +1052,7 @@ namespace radio.Controllers
                     pl.duration = item.Duration.Substring(0, item.Duration.Length - 8);
                     pl.genre = item.Genre;
                     pl.location = item.Location;
+                    pl.ID = item.ID;
 
                     invm.StreamPlayer.Add(pl);
 
@@ -1117,6 +1131,8 @@ namespace radio.Controllers
                     pl.duration = item.Duration.Substring(0, item.Duration.Length - 8);
                     pl.genre = item.Genre;
                     pl.location = item.Location;
+                    pl.ID = item.ID;
+
 
                     invm.StreamPlayer.Add(pl);
 
@@ -1189,7 +1205,7 @@ namespace radio.Controllers
             return RedirectToAction("Playlist", new { playlist = tracklist.PlaylistName1 });
         }
 
-        public ActionResult AddToPlaylist(int? id, string album, string artist)
+        public ActionResult _AddToPlaylist(int? id, string album, string artist, int? modalID)
         {
             var SelectedTrack = db.TrackLists.FirstOrDefault(i => i.ID == id);
 
@@ -1213,6 +1229,7 @@ namespace radio.Controllers
             invm.title = SelectedTrack.Title;
             invm.tracknumber = SelectedTrack.TrackNumber;
             invm.Art = SelectedTrack.Art;
+            invm.modal = modalID;
             var sidebar = db.PlaylistNames.Select(x => x.PlaylistName1).Distinct().ToList();
             foreach (var item in sidebar)
             {
@@ -1224,24 +1241,25 @@ namespace radio.Controllers
 
             invm.PlayList = invm.PlayList.ToList();
 
-            return View(invm);
+            return PartialView(invm);
         }
 
         // POST: Teacher/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddToPlaylist([Bind(Include = "ID,artist,duration,location,genre,album,title,tracknumber,art")] TrackList tracklist)
+        public ActionResult _PlaylistAdd(string playlist, int? id)
         {
             IndexViewModel invm = new IndexViewModel();
             PlaylistName pln = new PlaylistName();
-            if (ModelState.IsValid)
-            {
+
+            var tracklist = db.TrackLists.FirstOrDefault(x => x.ID == id);
+
                 pln.Album = tracklist.Album;
                 pln.Artist = tracklist.Artist;
                 pln.Duration = tracklist.Duration;
                 pln.Genre = tracklist.Genre;
                 pln.Location = tracklist.Location;
-                pln.PlaylistName1 = tracklist.Art;
+                pln.PlaylistName1 = playlist;
                 pln.Title = tracklist.Title;
                 pln.TL_ID = tracklist.ID;
                 pln.TrackNumber = tracklist.TrackNumber;
@@ -1250,9 +1268,9 @@ namespace radio.Controllers
                 db.PlaylistNames.Add(pln);
                 db.SaveChanges();
 
-                return RedirectToAction("Album", "Home", new { artist = tracklist.Artist, album = tracklist.Album });
-            }
-            return View(invm);
+                return Json(new { success = true});
+            
+
         }
     }
 }

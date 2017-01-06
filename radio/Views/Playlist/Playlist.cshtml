@@ -50,7 +50,10 @@ There are @Model.tracknumber songs lasting @Model.duration.
                             </td>
                             <td class="col-sm-3">
                                 <div class="btn-group" role="group" aria-label="Basic example">
-                                    <button type="button" class="btn btn-default" onclick="window.sm2BarPlayers[0].actions.play(@i);"><span class="glyphicon glyphicon-play"></span></button>
+                                    <button type="button" id="@item.ID" class="btn btn-default" onclick="window.sm2BarPlayers[0].actions.play(@i)">
+                                    <span class="glyphicon glyphicon-play"></span></button>
+
+
                                     @if (item.Art != null)
                                     {
                                         <button type="button" class="btn btn-default" data-toggle="modal" data-target=".@item.ID"><span class="glyphicon glyphicon-picture"></span></button>
@@ -156,4 +159,5 @@ There are @Model.tracknumber songs lasting @Model.duration.
             $('#myInput').focus()
         })
     </script>
+
 }

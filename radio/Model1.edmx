@@ -5,6 +5,24 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="SongListModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="History">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IsComplete" Type="int" Nullable="false" />
+          <Property Name="ListeningUser" Type="varchar" MaxLength="255" />
+          <Property Name="Timestamp" Type="datetime" />
+          <Property Name="TrackListID" Type="int" />
+        </EntityType>
+        <EntityType Name="PlayCount">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TrackListID" Type="int" Nullable="false" />
+          <Property Name="SongPlayCount" Type="int" />
+        </EntityType>
         <EntityType Name="PlaylistName">
           <Key>
             <PropertyRef Name="ID" />
@@ -43,6 +61,8 @@
           <Property Name="TimeAdded" Type="datetime" />
         </EntityType>
         <EntityContainer Name="SongListModelStoreContainer">
+          <EntitySet Name="History" EntityType="Self.History" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PlayCount" EntityType="Self.PlayCount" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PlaylistName" EntityType="Self.PlaylistName" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TrackList" EntityType="Self.TrackList" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
@@ -90,7 +110,27 @@
         <EntityContainer Name="SongListEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="PlaylistNames" EntityType="Self.PlaylistName" />
           <EntitySet Name="TrackLists" EntityType="Self.TrackList" />
+          <EntitySet Name="PlayCounts" EntityType="SongListModel.PlayCount" />
+          <EntitySet Name="Histories" EntityType="SongListModel.History" />
         </EntityContainer>
+        <EntityType Name="PlayCount">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TrackListID" Type="Int32" Nullable="false" />
+          <Property Name="SongPlayCount" Type="Int32" />
+        </EntityType>
+        <EntityType Name="History">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IsComplete" Type="Int32" Nullable="false" />
+          <Property Name="ListeningUser" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Timestamp" Type="DateTime" Precision="3" />
+          <Property Name="TrackListID" Type="Int32" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -133,6 +173,26 @@
                 <ScalarProperty Name="Art" ColumnName="Art" />
                 <ScalarProperty Name="ArtWork" ColumnName="ArtWork" />
                 <ScalarProperty Name="Covers" ColumnName="Covers" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PlayCounts">
+            <EntityTypeMapping TypeName="SongListModel.PlayCount">
+              <MappingFragment StoreEntitySet="PlayCount">
+                <ScalarProperty Name="SongPlayCount" ColumnName="SongPlayCount" />
+                <ScalarProperty Name="TrackListID" ColumnName="TrackListID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Histories">
+            <EntityTypeMapping TypeName="SongListModel.History">
+              <MappingFragment StoreEntitySet="History">
+                <ScalarProperty Name="TrackListID" ColumnName="TrackListID" />
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="ListeningUser" ColumnName="ListeningUser" />
+                <ScalarProperty Name="IsComplete" ColumnName="IsComplete" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

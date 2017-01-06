@@ -94,9 +94,8 @@
                     <!-- standard one-line items -->
                     @foreach (var item in Model.StreamPlayer)
                     {
-
-                            <li>
-                                <a href="@item.location" onclick="document.title = '@item.artist - @item.title'">@item.artist - @item.album - @item.tracknumber - @item.title</a>
+                            <li id="@item.ID">
+                                <a href="@item.location">@item.artist - @item.album - @item.tracknumber - @item.title</a>
                             </li>
                         
                     }

@@ -120,6 +120,9 @@
                                 <li>
                                     <a href="@Url.Action("Album", "Home", new { album = "random" })">Random Album</a>
                                 </li>
+                                <li>
+                                    <a href="@Url.Action("Agg", "Home")">Played Songs</a>
+                                </li>
                             </ul>
                         </li>
                         
@@ -161,5 +164,37 @@ $(document).ready(function(){
         });
         $('.dropdown-toggle').dropdown()
     </script>
+    <script>
+        window.sm2BarPlayers.on = {
+            play: function (player) {
+                var test = $(window.sm2BarPlayers[0].playlistController.getItem(player.ID)).prop('outerHTML').substr(8, 6);
+                $.ajax({
+                    type: 'Post',
+                    url: '@Url.Action("_History", "Home")',
+                    data: { ID: test },
+                    success:
+                        console.log(test)
+                })
+            },
+            finish: function (player) {
+                var test = $(window.sm2BarPlayers[0].playlistController.getItem(player.ID)).prop('outerHTML').substr(8, 6);
+                $.ajax({
+                    type: 'Post',
+                    url: '@Url.Action("_Playcount", "Home")',
+                    data: { ID: test },
+                    success:
+                        console.log(test)
+                })
+                $.ajax({
+                    type: 'Post',
+                    url: '@Url.Action("_UpdateHistory", "Home")',
+                    data: { ID: test },
+                    success:
+                        console.log(test)
+                })
+            }
+        }
+    </script>
+
 </body>
 </html>

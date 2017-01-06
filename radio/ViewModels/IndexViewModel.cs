@@ -28,6 +28,10 @@ namespace radio.ViewModels
         public List<playlist> PlayList { get; set; }
         public List<genrechart> Chart { get; set; }
         public List<genrecharts> Charts { get; set; }
+        public List<historycharts> PlayHistory { get; set; }
+        public List<historychart> PlayHistorys { get; set; }
+        public List<unplayedchart> Unplayedhistories { get; set; }
+        public List<unplayedcharts> Unplayedhistory { get; set; }
         public IndexViewModel()
         {
             indexview = new List<ivm>();
@@ -35,6 +39,10 @@ namespace radio.ViewModels
             PlayList = new List<playlist>();
             Chart = new List<genrechart>();
             Charts = new List<genrecharts>();
+            PlayHistorys = new List<historychart>();
+            PlayHistory = new List<historycharts>();
+            Unplayedhistories = new List<unplayedchart>();
+            Unplayedhistory = new List<unplayedcharts>();
         }
     }
 
@@ -80,5 +88,25 @@ namespace radio.ViewModels
     {
         public string Genre { get; set; }
         public int? PlayCount { get; set; }
+    }
+    public class historychart
+    {
+        public string Date { get; set; }
+        public int? Count { get; set; }
+    }
+    public class historycharts
+    {
+        public string Date { get; set; }
+        public int? Count { get; set; }
+    }
+    public class unplayedchart
+    {
+        public string Date { get; set; }
+        public int? Count { get; set; }
+    }
+    public class unplayedcharts
+    {
+        public string Date { get; set; }
+        public int? Count { get; set; }
     }
 }

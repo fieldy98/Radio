@@ -869,6 +869,7 @@
     <Content Include="Views\Upload\Upload.cshtml" />
     <Content Include="Views\Playlist\RandomPlaylist.cshtml" />
     <Content Include="Views\Home\Agg.cshtml" />
+    <Content Include="Views\Home\History.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,15 +1,11 @@
 ﻿@model radio.ViewModels.IndexViewModel
 @{
-    ViewBag.Title = "Played Songs";
+    ViewBag.Title = "25 Most Played Songs";
 }
 
 <div class="row panel">
     <div class="panel-body">
-        <h6>Listened for @Model.duration</h6>
-        <div class="col-xs-12 col-sm-3">
-            <div id="container" style="max-width: 100%; margin: 0 auto"></div>
-        </div>
-        <div class="col-xs-12 col-sm-9">
+        <div class="col-xs-12">
             <table class="table" id="AlbumTable">
                 <thead>
                     <tr>
@@ -83,27 +79,6 @@
     <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
     <script src="http://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
     <script>
-        //$(document).ready(function () {
-        //    // Setup DataTable
-        //    $('#AlbumTable').DataTable({
-        //        dom: 'lfrti',
-        //        "bPaginate": false,
-        //        "bLengthChange": false,
-        //        "bFilter": true,
-        //        "bInfo": false,
-        //        "bAutoWidth": false,
-        //        "searching": false,
-        //        lengthMenu: [
-        //    [-1],
-        //    ['Show all']
-        //        ],
-        //        buttons: [
-        //        ]
-        //    });
-        //    // Pull Search Field to the right
-        //    $("#AlbumTable_filter").addClass("pull-right");
-        //});
-
         function LoadSong(element) {
             var song = $(element).val();
             $.ajax({
@@ -123,58 +98,5 @@
     $('#myModal').on('shown.bs.modal', function () {
         $('#myInput').focus()
     })
-    </script>
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.highcharts.com/modules/exporting.js"></script>
-
-    <script>
-$(function () {
-
-    $(document).ready(function () {
-        var series = @Model.Chart.Count;
-        var myData = @Html.Raw(Json.Encode(Model.Chart.Select(x=>x.name)));
-        var myData2 = @Html.Raw(Json.Encode(Model.Chart.Select(x => x.y)));
-        var mySeries = [];
-        for (var i = 0; i < series; i++)
-        {
-            mySeries.push([myData[i], myData2[i]]);
-        }
-
-        // Build the chart
-        Highcharts.chart('container', {
-            chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false,
-                type: 'pie'
-            },
-            title: {
-                text: 'Played Genres'
-            },
-            tooltip: {
-                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-            },
-            plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        enabled: false
-                    },
-                    showInLegend: true
-                }
-            },
-            credits: {
-                enabled: false
-            },
-            series: [{
-                name: 'Songs',
-                colorByPoint: true,
-                
-                data: mySeries
-            }]
-        });
-    });
-});
     </script>
 }

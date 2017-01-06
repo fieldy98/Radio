@@ -325,33 +325,8 @@ namespace radio.Controllers
             IndexViewModel invm = new IndexViewModel();
             var SongList = db.PlayCounts.OrderByDescending(x=>x.SongPlayCount).ToList();
 
-            var hours = 0;
-            var minutes = 0;
-            var seconds = 0;
-            foreach (var item in SongList)
-            {
-                var song = db.TrackLists.FirstOrDefault(x => x.ID == item.TrackListID);
-                for (var i = 0; i < item.SongPlayCount; i++)
-                {
-                    string[] duration = song.Duration.Split(':', '.');
-                    hours = hours + Convert.ToInt32(duration[0]);
-                    minutes = minutes + Convert.ToInt32(duration[1]);
-                    seconds = seconds + Convert.ToInt32(duration[2]);
-                }
-                
-            }
-            for (var i = seconds; i >= 60; i = i - 60)
-            {
-                seconds = seconds - 60;
-                minutes = minutes + 1;
-            }
-            for (var i = minutes; i >= 60; i = i - 60)
-            {
-                minutes = minutes - 60;
-                hours = hours + 1;
-            }
-            var timeframe = hours.ToString("00") + ":" + minutes.ToString("00") + ":" + seconds.ToString("00");
-            invm.duration = timeframe;
+            var thismonth = DateTime.Now.Month;
+            var played = db.Histories.Where(x => x.IsComplete == 1 && x.Timestamp.Value.Month == thismonth);
 
             if (SongList == null)
             {
@@ -405,11 +380,62 @@ namespace radio.Controllers
                 invm.StreamPlayer.Add(tl);
             }
 
-            foreach(var item in SongList)
+            invm.PlayList = invm.PlayList.ToList();
+            invm.StreamPlayer = invm.StreamPlayer.Take(25).ToList();
+            invm.indexview = invm.indexview.Take(25).ToList();
+            return View(invm);
+        }
+        public ActionResult History()
+        {
+            IndexViewModel invm = new IndexViewModel();
+            var SongList = db.PlayCounts.OrderByDescending(x => x.SongPlayCount).ToList();
+
+            var hours = 0;
+            var minutes = 0;
+            var seconds = 0;
+            var played = db.Histories.Where(x => x.IsComplete == 1).OrderBy(x=>x.Timestamp);
+            var unplayed = db.Histories.Where(x => x.IsComplete == 0).OrderBy(x => x.Timestamp);
+
+            foreach (var item in SongList)
+            {
+                var song = db.TrackLists.FirstOrDefault(x => x.ID == item.TrackListID);
+                for (var i = 0; i < item.SongPlayCount; i++)
+                {
+                    string[] duration = song.Duration.Split(':', '.');
+                    hours = hours + Convert.ToInt32(duration[0]);
+                    minutes = minutes + Convert.ToInt32(duration[1]);
+                    seconds = seconds + Convert.ToInt32(duration[2]);
+                }
+
+            }
+            for (var i = seconds; i >= 60; i = i - 60)
+            {
+                seconds = seconds - 60;
+                minutes = minutes + 1;
+            }
+            for (var i = minutes; i >= 60; i = i - 60)
+            {
+                minutes = minutes - 60;
+                hours = hours + 1;
+            }
+            var timeframe = hours.ToString("00") + ":" + minutes.ToString("00") + ":" + seconds.ToString("00");
+            invm.duration = timeframe;
+
+            var sidebar = db.PlaylistNames.Select(x => x.PlaylistName1).Distinct().ToList();
+            foreach (var item in sidebar)
+            {
+                playlist pl = new playlist();
+                pl.Playlist = item;
+
+                invm.PlayList.Add(pl);
+            }
+
+            foreach (var item in SongList)
             {
                 genrecharts gc = new genrecharts();
                 var songs = db.TrackLists.FirstOrDefault(x => x.ID == item.TrackListID);
-                if(songs.Genre == null)
+                var playcount = 0;
+                if (songs.Genre == null)
                 {
                     gc.Genre = "Other";
                 }
@@ -417,20 +443,58 @@ namespace radio.Controllers
                 {
                     gc.Genre = songs.Genre;
                 }
-                gc.PlayCount = item.SongPlayCount;
+                for (var i = 0; i < item.SongPlayCount; i++)
+                {
+                    playcount++;
+                }
+                gc.PlayCount = playcount;
                 invm.Charts.Add(gc);
             }
-            foreach (var item in invm.Charts.GroupBy(x=>x.Genre))
+            foreach (var item in invm.Charts.GroupBy(x => x.Genre))
             {
                 genrechart gc = new genrechart();
                 gc.name = item.Key;
                 gc.y = item.Sum(x=>x.PlayCount);
                 invm.Chart.Add(gc);
             }
+            
+            foreach (var item in played)
+            {
+                historychart hc = new historychart();
+                hc.Date = item.Timestamp.Value.ToShortDateString();
+
+                invm.PlayHistorys.Add(hc);
+            }
+
+            foreach (var item in invm.PlayHistorys.GroupBy(x=>x.Date))
+            {
+                historycharts hc = new historycharts();
+                hc.Date = item.Key;
+                hc.Count = item.Count();
+
+                invm.PlayHistory.Add(hc);
+            }
+            foreach (var item in unplayed)
+            {
+                unplayedchart hc = new unplayedchart();
+                hc.Date = item.Timestamp.Value.ToShortDateString();
+
+                invm.Unplayedhistories.Add(hc);
+            }
+
+            foreach (var item in invm.Unplayedhistories.GroupBy(x => x.Date))
+            {
+                unplayedcharts hc = new unplayedcharts();
+                hc.Date = item.Key;
+                hc.Count = item.Count();
+
+                invm.Unplayedhistory.Add(hc);
+            }
 
             invm.Chart = invm.Chart.ToList();
             invm.PlayList = invm.PlayList.ToList();
-            invm.StreamPlayer = invm.StreamPlayer.ToList();
+            invm.PlayHistory = invm.PlayHistory.ToList();
+            invm.Unplayedhistory = invm.Unplayedhistory.ToList();
             invm.indexview = invm.indexview.ToList();
             return View(invm);
         }

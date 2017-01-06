@@ -1,0 +1,167 @@
+﻿@model radio.ViewModels.IndexViewModel
+@{
+    ViewBag.Title = "History";
+}
+
+    <div class="row panel">
+        <div class="panel-body">
+            <h6>Total Time Listend: @Model.duration</h6>
+            <div class="col-xs-12 col-sm-3">
+                <div id="genrechart" style="max-width: 100%; margin: 0 auto"></div>
+            </div>
+            <div class="col-xs-12 col-sm-9">
+                <div id="unplayedchart" style="max-width: 100%; margin: 0 auto"></div>
+                <div id="historychart" style="max-width: 100%; margin: 0 auto"></div>
+            </div>
+        </div>
+    </div>
+
+
+@section Scripts{
+    @*
+        Call DataTables Dependencies
+    *@
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/DataTables/dataTables.bootstrap.min.js"></script>
+    <script src="~/Scripts/DataTables/dataTables.buttons.min.js"></script>
+    <script src="~/Scripts/DataTables/buttons.bootstrap.min.js"></script>
+    <script src="~/Scripts/DataTables/buttons.html5.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <script src="http://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+
+ <script>
+        $(function () {
+
+            $(document).ready(function () {
+                var series = @Model.Chart.Count;
+                var myData = @Html.Raw(Json.Encode(Model.Chart.Select(x => x.name)));
+                var myData2 = @Html.Raw(Json.Encode(Model.Chart.Select(x => x.y)));
+                var mySeries = [];
+                for (var i = 0; i < series; i++)
+                {
+                    mySeries.push([myData[i], myData2[i]]);
+                }
+
+                // Build the chart
+                Highcharts.chart('genrechart', {
+                    chart: {
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false,
+                        type: 'pie'
+                    },
+                    title: {
+                        text: 'This Month'
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: false
+                            },
+                            showInLegend: true
+                        }
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    series: [{
+                        name: 'Songs',
+                        colorByPoint: true,
+
+                        data: mySeries
+                    }]
+                });
+            });
+        });
+</script>
+    <script>
+        $(function () {
+            Highcharts.chart('historychart', {
+                title: {
+                    text: 'Number of Songs Skipped to Per Day',
+                    x: -20 //center
+                },
+                xAxis: {
+                    categories: @Html.Raw(Json.Encode(Model.Unplayedhistory.Select(x => x.Date))),
+                },
+                yAxis: {
+                    title: {
+                        text: 'Skips Per Day'
+                    },
+                    plotLines: [{
+                        value: 0,
+                        width: 1,
+                        color: '#808080'
+                    }]
+                },
+                tooltip: {
+                    valueSuffix: ' Songs'
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle',
+                    borderWidth: 0
+                },
+                credits: {
+                    enabled: false
+                },
+                series: [{
+                    name: 'Skipped', 
+                    data: @Html.Raw(Json.Encode(Model.Unplayedhistory.Select(x => x.Count))),
+                    }]
+
+            });
+        });
+    </script>
+<script>
+        $(function () {
+            Highcharts.chart('unplayedchart', {
+                title: {
+                    text: 'Number of Songs Listened to Per Day',
+                    x: -20 //center
+                },
+                xAxis: {
+                    categories: @Html.Raw(Json.Encode(Model.PlayHistory.Select(x => x.Date))),
+                },
+                yAxis: {
+                    title: {
+                        text: 'Plays Per Day'
+                    },
+                    plotLines: [{
+                        value: 0,
+                        width: 1,
+                        color: '#808080'
+                    }]
+                },
+                tooltip: {
+                    valueSuffix: ' Songs'
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle',
+                    borderWidth: 0
+                },
+                credits: {
+                    enabled: false
+                },
+                series: [{
+                    name: 'Plays',
+                    data: @Html.Raw(Json.Encode(Model.PlayHistory.Select(x => x.Count))),
+                    }]
+
+            });
+        });
+</script>
+}

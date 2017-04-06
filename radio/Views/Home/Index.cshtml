@@ -6,34 +6,18 @@
 @using PagedList.Mvc;
 @using PagedList;
 
-    @using (Html.BeginForm())
-    {
-        <p>
-            @Html.TextBox("searchString")
-            <input type="submit" value="Search" />
-        </p>
-    }
-    @*<table id="ArtistTable" class="table">
-        <thead>
-            <tr>
-                <th>Artists</th>
-                <th>Number Of Albums</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.indexview)
-            {
-                <tr>
-                    <td><a href="@Url.Action("Catalog", "Home", new { artist = item.artist })">@item.artist </a></td>
-                    <td>@Html.DisplayFor(modelItem => item.album)</td>
-                </tr>
-            }
-
-        </tbody>
-    </table>*@
+    
 
     <div class="row panel">
         <div class="panel-body">
+            @using (Html.BeginForm())
+            {
+                <div class="form-inline">
+                    @Html.TextBox("searchString", null, new { @class = "form-control" })
+                    <input class="btn btn-default" type="submit" value="Search" />
+                </div>
+            }
+            <br />
             <div class="row">
                 @foreach (var item in Model.indexview)
                 {

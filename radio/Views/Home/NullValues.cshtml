@@ -1,0 +1,121 @@
+﻿@model radio.ViewModels.IndexViewModel
+
+@{
+    ViewBag.Title = "Null Values";
+}
+
+
+There are @Model.tracknumber songs.
+<div class="row panel">
+    <div class="panel-body">
+        <div class="col-xs-12">
+            <table class="table" id="AlbumTable">
+                <thead>
+                    <tr>
+                        <th>
+                            Artist
+                        </th>
+                        <th>
+                            Album
+                        </th>
+                        <th class="hidden-xs">
+                            Track Number
+                        </th>
+                        <th class="visible-xs">
+                            #
+                        </th>
+                        <th>
+                            Title
+                        </th>
+                        <th>
+                            Genre
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.indexview)
+            {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.artist)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.album)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.tracknumber)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.title)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.genre)
+                            </td>
+                            <td class="col-sm-4">
+                                <div class="btn-group" role="group" aria-label="Basic example">
+                                    <a class="btn btn-default" href="@Url.Action("Details", "Details", new { id = item.ID })"><span class="glyphicon glyphicon-edit"></span></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <div class="modal fade @item.tracknumber" tabindex="-1" role="dialog" aria-labelledby="@item.tracknumber">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <div class="col-sm-12">
+                                            @if (item.Art != null)
+                                            {
+                                                <img style="max-width:100%;" src="data:image/png;base64,@item.Art" alt="@item.album" title="@item.album" />
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="@item.ID" tabindex="-1" role="dialog" aria-labelledby="@item.ID">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <div class="col-sm-12" id="addToPlaylist">
+
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script>
+        $(function () {
+            $(".table-class tr").each(function () {
+                $(this).find('td:eq(2)').addClass("hidden-xs");
+            });
+        });
+    </script>
+
+    @*
+        Call DataTables Dependencies
+    *@
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/DataTables/dataTables.bootstrap.min.js"></script>
+    <script src="~/Scripts/DataTables/dataTables.buttons.min.js"></script>
+    <script src="~/Scripts/DataTables/buttons.bootstrap.min.js"></script>
+    <script src="~/Scripts/DataTables/buttons.html5.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <script src="http://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+
+}

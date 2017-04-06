@@ -8,9 +8,11 @@
     int i = 0;
 }
 
-@Html.ActionLink("Back", "Catalog", new { artist = Model.artist, album = Model.album }, new { @class = "btn btn-default" })
+
 <div class="row panel">
     <div class="panel-body">
+        @Html.ActionLink("Back", "Catalog", new { artist = Model.artist, album = Model.album }, new { @class = "btn btn-default" })
+        <br />
         <div class="col-sm-12">
             <h2>@Html.DisplayFor(modelItem => Model.album)</h2>
             <h5> by @Html.DisplayFor(modelItem => Model.artist)</h5>
@@ -30,56 +32,116 @@
 
 
         <div class="col-xs-9">
-            <table class="table" id="AlbumTable">
-                <thead>
-                    <tr>
-                        <th>
-                            Track Number
-                        </th>
-                        <th>
-                            Title
-                        </th>
-                        <th class="hidden-xs">
-                            Genre
-                        </th>
-                        <th>
-                            Length
-                        </th>
-                        <th>
-                            <a class="btn btn-default" href="@Url.Action("Album", "Home", new { artist = Model.artist, album = Model.album, shuffled = "yes" })"><span class="glyphicon glyphicon-random"></span></a>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.indexview)
+            @if (Model.album == "As Featured Artist")
             {
+                <table class="table" id="AlbumTable">
+                    <thead>
                         <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.tracknumber)
-                            </td>
-                            <td>
-
-                                @Html.DisplayFor(modelItem => item.title)
-
-                            </td>
-                            <td class="hidden-xs">
-                                @Html.DisplayFor(modelItem => item.genre)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.duration)
-                            </td>
-                            <td>
-                                <div class="btn-group" role="group" aria-label="Basic example">
-                                    <button type="button" class="btn btn-default" onclick="window.sm2BarPlayers[0].actions.play(@i);"><span class="glyphicon glyphicon-play"></span></button>
-                                    <a class="btn btn-default" href="@Url.Action("AddToPlaylist", "Playlist", new { id = item.ID })"><span class="glyphicon glyphicon-plus"></span></a>
-                                    <a class="btn btn-default" href="@Url.Action("Details", "Details", new { id = item.ID })"><span class="glyphicon glyphicon-edit"></span></a>
-                                </div>
-                            </td>
+                            <th>
+                                Artist
+                            </th>
+                            <th>
+                                Track Number
+                            </th>
+                            <th>
+                                Title
+                            </th>
+                            <th class="hidden-xs">
+                                Genre
+                            </th>
+                            <th>
+                                Length
+                            </th>
                         </tr>
-                        i++;
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.indexview)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.artist)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.tracknumber)
+                                </td>
+                                <td>
+
+                                    @Html.DisplayFor(modelItem => item.title)
+
+                                </td>
+                                <td class="hidden-xs">
+                                    @Html.DisplayFor(modelItem => item.genre)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.duration)
+                                </td>
+                                <td>
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                        <button type="button" class="btn btn-default" onclick="window.sm2BarPlayers[0].actions.play(@i);"><span class="glyphicon glyphicon-play"></span></button>
+                                        <a class="btn btn-default" href="@Url.Action("AddToPlaylist", "Playlist", new { id = item.ID })"><span class="glyphicon glyphicon-plus"></span></a>
+                                        <a class="btn btn-default" href="@Url.Action("Details", "Details", new { id = item.ID })"><span class="glyphicon glyphicon-edit"></span></a>
+                                    </div>
+                                </td>
+                            </tr>
+                            i++;
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <table class="table" id="AlbumTable">
+                    <thead>
+                        <tr>
+                            <th>
+                                Track Number
+                            </th>
+                            <th>
+                                Title
+                            </th>
+                            <th class="hidden-xs">
+                                Genre
+                            </th>
+                            <th>
+                                Length
+                            </th>
+                            <th>
+                                <a class="btn btn-default" href="@Url.Action("Album", "Home", new { artist = Model.artist, album = Model.album, shuffled = "yes" })"><span class="glyphicon glyphicon-random"></span></a>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.indexview)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.tracknumber)
+                                </td>
+                                <td>
+
+                                    @Html.DisplayFor(modelItem => item.title)
+
+                                </td>
+                                <td class="hidden-xs">
+                                    @Html.DisplayFor(modelItem => item.genre)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.duration)
+                                </td>
+                                <td>
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                        <button type="button" class="btn btn-default" onclick="window.sm2BarPlayers[0].actions.play(@i);"><span class="glyphicon glyphicon-play"></span></button>
+                                        <a class="btn btn-default" href="@Url.Action("AddToPlaylist", "Playlist", new { id = item.ID })"><span class="glyphicon glyphicon-plus"></span></a>
+                                        <a class="btn btn-default" href="@Url.Action("Details", "Details", new { id = item.ID })"><span class="glyphicon glyphicon-edit"></span></a>
+                                    </div>
+                                </td>
+                            </tr>
+                            i++;
+                        }
+                    </tbody>
+                </table>
+            }
+            
         </div>
     </div>
 </div>

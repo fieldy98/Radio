@@ -60,11 +60,190 @@
           <Property Name="Timestamp" Type="timestamp" StoreGeneratedPattern="Computed" />
           <Property Name="TimeAdded" Type="datetime" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SongList.dbo.CompleteAlbumListens' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="CompleteAlbumListens">
+          <Key>
+            <PropertyRef Name="Row" />
+          </Key>
+          <Property Name="Row" Type="bigint" Nullable="false" />
+          <Property Name="Album" Type="nvarchar(max)" />
+          <Property Name="Artist" Type="nvarchar(max)" />
+          <Property Name="Songs" Type="int" />
+          <Property Name="Plays" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SongList.dbo.CompleteAlbumListensByArtist' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="CompleteAlbumListensByArtist">
+          <Key>
+            <PropertyRef Name="Row" />
+          </Key>
+          <Property Name="Row" Type="bigint" Nullable="false" />
+          <Property Name="Artist" Type="nvarchar(max)" />
+          <Property Name="Plays" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SongList.dbo.CompleteAlbumListensByGenre' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="CompleteAlbumListensByGenre">
+          <Key>
+            <PropertyRef Name="Row" />
+          </Key>
+          <Property Name="Row" Type="bigint" Nullable="false" />
+          <Property Name="Genre" Type="nvarchar(max)" />
+          <Property Name="Plays" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SongList.dbo.LongestSongs' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="LongestSongs">
+          <Key>
+            <PropertyRef Name="Row" />
+          </Key>
+          <Property Name="Row" Type="bigint" Nullable="false" />
+          <Property Name="Artist" Type="nvarchar(max)" />
+          <Property Name="Title" Type="nvarchar(max)" />
+          <Property Name="Album" Type="nvarchar(max)" />
+          <Property Name="Duration" Type="nvarchar(max)" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SongList.dbo.MostPlayedArtist' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="MostPlayedArtist">
+          <Key>
+            <PropertyRef Name="Row" />
+          </Key>
+          <Property Name="Row" Type="bigint" Nullable="false" />
+          <Property Name="Artist" Type="nvarchar(max)" />
+          <Property Name="Plays" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SongList.dbo.MostUnfinishedSongs' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="MostUnfinishedSongs">
+          <Key>
+            <PropertyRef Name="Row" />
+          </Key>
+          <Property Name="Row" Type="bigint" Nullable="false" />
+          <Property Name="Artist" Type="nvarchar(max)" />
+          <Property Name="Title" Type="nvarchar(max)" />
+          <Property Name="Album" Type="nvarchar(max)" />
+          <Property Name="Skips" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SongList.dbo.PlayedSongs' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="PlayedSongs">
+          <Key>
+            <PropertyRef Name="Location" />
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="Artist" Type="nvarchar(max)" />
+          <Property Name="Album" Type="nvarchar(max)" />
+          <Property Name="Title" Type="nvarchar(max)" />
+          <Property Name="TrackNumber" Type="int" />
+          <Property Name="Duration" Type="nvarchar(max)" />
+          <Property Name="Genre" Type="nvarchar(max)" />
+          <Property Name="Location" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="SongPlayCount" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SongList.dbo.SkippedSongs' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="SkippedSongs">
+          <Key>
+            <PropertyRef Name="Location" />
+            <PropertyRef Name="IsComplete" />
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="Artist" Type="nvarchar(max)" />
+          <Property Name="Album" Type="nvarchar(max)" />
+          <Property Name="Title" Type="nvarchar(max)" />
+          <Property Name="TrackNumber" Type="int" />
+          <Property Name="Duration" Type="nvarchar(max)" />
+          <Property Name="Genre" Type="nvarchar(max)" />
+          <Property Name="Location" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="IsComplete" Type="int" Nullable="false" />
+          <Property Name="Timestamp" Type="datetime" />
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="TrackListID" Type="int" />
+        </EntityType>
         <EntityContainer Name="SongListModelStoreContainer">
           <EntitySet Name="History" EntityType="Self.History" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PlayCount" EntityType="Self.PlayCount" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PlaylistName" EntityType="Self.PlaylistName" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TrackList" EntityType="Self.TrackList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CompleteAlbumListens" EntityType="Self.CompleteAlbumListens" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [CompleteAlbumListens].[Row] AS [Row], 
+    [CompleteAlbumListens].[Album] AS [Album], 
+    [CompleteAlbumListens].[Artist] AS [Artist], 
+    [CompleteAlbumListens].[Songs] AS [Songs], 
+    [CompleteAlbumListens].[Plays] AS [Plays]
+    FROM [dbo].[CompleteAlbumListens] AS [CompleteAlbumListens]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="CompleteAlbumListensByArtist" EntityType="Self.CompleteAlbumListensByArtist" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [CompleteAlbumListensByArtist].[Row] AS [Row], 
+    [CompleteAlbumListensByArtist].[Artist] AS [Artist], 
+    [CompleteAlbumListensByArtist].[Plays] AS [Plays]
+    FROM [dbo].[CompleteAlbumListensByArtist] AS [CompleteAlbumListensByArtist]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="CompleteAlbumListensByGenre" EntityType="Self.CompleteAlbumListensByGenre" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [CompleteAlbumListensByGenre].[Row] AS [Row], 
+    [CompleteAlbumListensByGenre].[Genre] AS [Genre], 
+    [CompleteAlbumListensByGenre].[Plays] AS [Plays]
+    FROM [dbo].[CompleteAlbumListensByGenre] AS [CompleteAlbumListensByGenre]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="LongestSongs" EntityType="Self.LongestSongs" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [LongestSongs].[Row] AS [Row], 
+    [LongestSongs].[Artist] AS [Artist], 
+    [LongestSongs].[Title] AS [Title], 
+    [LongestSongs].[Album] AS [Album], 
+    [LongestSongs].[Duration] AS [Duration]
+    FROM [dbo].[LongestSongs] AS [LongestSongs]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="MostPlayedArtist" EntityType="Self.MostPlayedArtist" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [MostPlayedArtist].[Row] AS [Row], 
+    [MostPlayedArtist].[Artist] AS [Artist], 
+    [MostPlayedArtist].[Plays] AS [Plays]
+    FROM [dbo].[MostPlayedArtist] AS [MostPlayedArtist]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="MostUnfinishedSongs" EntityType="Self.MostUnfinishedSongs" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [MostUnfinishedSongs].[Row] AS [Row], 
+    [MostUnfinishedSongs].[Artist] AS [Artist], 
+    [MostUnfinishedSongs].[Title] AS [Title], 
+    [MostUnfinishedSongs].[Album] AS [Album], 
+    [MostUnfinishedSongs].[Skips] AS [Skips]
+    FROM [dbo].[MostUnfinishedSongs] AS [MostUnfinishedSongs]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="PlayedSongs" EntityType="Self.PlayedSongs" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [PlayedSongs].[Artist] AS [Artist], 
+    [PlayedSongs].[Album] AS [Album], 
+    [PlayedSongs].[Title] AS [Title], 
+    [PlayedSongs].[TrackNumber] AS [TrackNumber], 
+    [PlayedSongs].[Duration] AS [Duration], 
+    [PlayedSongs].[Genre] AS [Genre], 
+    [PlayedSongs].[Location] AS [Location], 
+    [PlayedSongs].[ID] AS [ID], 
+    [PlayedSongs].[SongPlayCount] AS [SongPlayCount]
+    FROM [dbo].[PlayedSongs] AS [PlayedSongs]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="SkippedSongs" EntityType="Self.SkippedSongs" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [SkippedSongs].[Artist] AS [Artist], 
+    [SkippedSongs].[Album] AS [Album], 
+    [SkippedSongs].[Title] AS [Title], 
+    [SkippedSongs].[TrackNumber] AS [TrackNumber], 
+    [SkippedSongs].[Duration] AS [Duration], 
+    [SkippedSongs].[Genre] AS [Genre], 
+    [SkippedSongs].[Location] AS [Location], 
+    [SkippedSongs].[IsComplete] AS [IsComplete], 
+    [SkippedSongs].[Timestamp] AS [Timestamp], 
+    [SkippedSongs].[ID] AS [ID], 
+    [SkippedSongs].[TrackListID] AS [TrackListID]
+    FROM [dbo].[SkippedSongs] AS [SkippedSongs]</DefiningQuery>
+          </EntitySet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -112,6 +291,14 @@
           <EntitySet Name="TrackLists" EntityType="Self.TrackList" />
           <EntitySet Name="PlayCounts" EntityType="SongListModel.PlayCount" />
           <EntitySet Name="Histories" EntityType="SongListModel.History" />
+          <EntitySet Name="PlayedSongs" EntityType="SongListModel.PlayedSong" />
+          <EntitySet Name="SkippedSongs" EntityType="SongListModel.SkippedSong" />
+          <EntitySet Name="CompleteAlbumListens" EntityType="SongListModel.CompleteAlbumListen" />
+          <EntitySet Name="MostPlayedArtists" EntityType="SongListModel.MostPlayedArtist" />
+          <EntitySet Name="MostUnfinishedSongs" EntityType="SongListModel.MostUnfinishedSong" />
+          <EntitySet Name="LongestSongs" EntityType="SongListModel.LongestSong" />
+          <EntitySet Name="CompleteAlbumListensByArtists" EntityType="SongListModel.CompleteAlbumListensByArtist" />
+          <EntitySet Name="CompleteAlbumListensByGenres" EntityType="SongListModel.CompleteAlbumListensByGenre" />
         </EntityContainer>
         <EntityType Name="PlayCount">
           <Key>
@@ -130,6 +317,93 @@
           <Property Name="ListeningUser" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Timestamp" Type="DateTime" Precision="3" />
           <Property Name="TrackListID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="PlayedSong">
+          <Key>
+            <PropertyRef Name="Location" />
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="Artist" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Album" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TrackNumber" Type="Int32" />
+          <Property Name="Duration" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Genre" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Location" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="SongPlayCount" Type="Int32" />
+        </EntityType>
+        <EntityType Name="SkippedSong">
+          <Key>
+            <PropertyRef Name="Location" />
+            <PropertyRef Name="IsComplete" />
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="Artist" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Album" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TrackNumber" Type="Int32" />
+          <Property Name="Duration" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Genre" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Location" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsComplete" Type="Int32" Nullable="false" />
+          <Property Name="Timestamp" Type="DateTime" Precision="3" />
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="TrackListID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="CompleteAlbumListen">
+          <Key>
+            <PropertyRef Name="Row" />
+          </Key>
+          <Property Name="Row" Type="Int64" Nullable="false" />
+          <Property Name="Album" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Artist" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Songs" Type="Int32" />
+          <Property Name="Plays" Type="Int32" />
+        </EntityType>
+        <EntityType Name="MostPlayedArtist">
+          <Key>
+            <PropertyRef Name="Row" />
+          </Key>
+          <Property Name="Row" Type="Int64" Nullable="false" />
+          <Property Name="Artist" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Plays" Type="Int32" />
+        </EntityType>
+        <EntityType Name="MostUnfinishedSong">
+          <Key>
+            <PropertyRef Name="Row" />
+          </Key>
+          <Property Name="Row" Type="Int64" Nullable="false" />
+          <Property Name="Artist" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Album" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Skips" Type="Int32" />
+        </EntityType>
+        <EntityType Name="LongestSong">
+          <Key>
+            <PropertyRef Name="Row" />
+          </Key>
+          <Property Name="Row" Type="Int64" Nullable="false" />
+          <Property Name="Artist" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Album" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Duration" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="CompleteAlbumListensByArtist">
+          <Key>
+            <PropertyRef Name="Row" />
+          </Key>
+          <Property Name="Row" Type="Int64" Nullable="false" />
+          <Property Name="Artist" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Plays" Type="Int32" />
+        </EntityType>
+        <EntityType Name="CompleteAlbumListensByGenre">
+          <Key>
+            <PropertyRef Name="Row" />
+          </Key>
+          <Property Name="Row" Type="Int64" Nullable="false" />
+          <Property Name="Genre" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Plays" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -193,6 +467,98 @@
                 <ScalarProperty Name="ListeningUser" ColumnName="ListeningUser" />
                 <ScalarProperty Name="IsComplete" ColumnName="IsComplete" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PlayedSongs">
+            <EntityTypeMapping TypeName="SongListModel.PlayedSong">
+              <MappingFragment StoreEntitySet="PlayedSongs">
+                <ScalarProperty Name="SongPlayCount" ColumnName="SongPlayCount" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Genre" ColumnName="Genre" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="TrackNumber" ColumnName="TrackNumber" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Album" ColumnName="Album" />
+                <ScalarProperty Name="Artist" ColumnName="Artist" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SkippedSongs">
+            <EntityTypeMapping TypeName="SongListModel.SkippedSong">
+              <MappingFragment StoreEntitySet="SkippedSongs">
+                <ScalarProperty Name="TrackListID" ColumnName="TrackListID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="IsComplete" ColumnName="IsComplete" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Genre" ColumnName="Genre" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="TrackNumber" ColumnName="TrackNumber" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Album" ColumnName="Album" />
+                <ScalarProperty Name="Artist" ColumnName="Artist" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CompleteAlbumListens">
+            <EntityTypeMapping TypeName="SongListModel.CompleteAlbumListen">
+              <MappingFragment StoreEntitySet="CompleteAlbumListens">
+                <ScalarProperty Name="Plays" ColumnName="Plays" />
+                <ScalarProperty Name="Songs" ColumnName="Songs" />
+                <ScalarProperty Name="Artist" ColumnName="Artist" />
+                <ScalarProperty Name="Album" ColumnName="Album" />
+                <ScalarProperty Name="Row" ColumnName="Row" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MostPlayedArtists">
+            <EntityTypeMapping TypeName="SongListModel.MostPlayedArtist">
+              <MappingFragment StoreEntitySet="MostPlayedArtist">
+                <ScalarProperty Name="Plays" ColumnName="Plays" />
+                <ScalarProperty Name="Artist" ColumnName="Artist" />
+                <ScalarProperty Name="Row" ColumnName="Row" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MostUnfinishedSongs">
+            <EntityTypeMapping TypeName="SongListModel.MostUnfinishedSong">
+              <MappingFragment StoreEntitySet="MostUnfinishedSongs">
+                <ScalarProperty Name="Skips" ColumnName="Skips" />
+                <ScalarProperty Name="Album" ColumnName="Album" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Artist" ColumnName="Artist" />
+                <ScalarProperty Name="Row" ColumnName="Row" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LongestSongs">
+            <EntityTypeMapping TypeName="SongListModel.LongestSong">
+              <MappingFragment StoreEntitySet="LongestSongs">
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="Album" ColumnName="Album" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Artist" ColumnName="Artist" />
+                <ScalarProperty Name="Row" ColumnName="Row" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CompleteAlbumListensByArtists">
+            <EntityTypeMapping TypeName="SongListModel.CompleteAlbumListensByArtist">
+              <MappingFragment StoreEntitySet="CompleteAlbumListensByArtist">
+                <ScalarProperty Name="Plays" ColumnName="Plays" />
+                <ScalarProperty Name="Artist" ColumnName="Artist" />
+                <ScalarProperty Name="Row" ColumnName="Row" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CompleteAlbumListensByGenres">
+            <EntityTypeMapping TypeName="SongListModel.CompleteAlbumListensByGenre">
+              <MappingFragment StoreEntitySet="CompleteAlbumListensByGenre">
+                <ScalarProperty Name="Plays" ColumnName="Plays" />
+                <ScalarProperty Name="Genre" ColumnName="Genre" />
+                <ScalarProperty Name="Row" ColumnName="Row" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

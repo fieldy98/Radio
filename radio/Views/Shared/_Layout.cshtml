@@ -30,7 +30,7 @@
 </head>
 <body>
 
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -85,24 +85,18 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li class="dropdown-submenu">
-                                    <a href="#" class="test">Songs You Might Like <span class="caret"></span></a>
-                                    <ul class="dropdown-menu">
-                                        @foreach (var item in Model.PlayList)
-                                        {
-                                            <li>
-                                                <a href="@Url.Action("RandomPlaylist", "Playlist", new { basedOn = item.Playlist, playlist = "predict" })">Based on @item.Playlist</a>
-                                            </li>
-                                        }
-                                    </ul>
-                                </li>
-                                
+                                <li>
+                                    <a href="@Url.Action("RandomPlaylist", "Playlist", new { playlist = "predict" })">Songs You Might Like</a>
+                                </li>                                
                                 <li>
                                     <a href="@Url.Action("RandomPlaylist", "Playlist", new { playlist = "thisweek" })">New Songs This Week</a>
                                 </li>
-                                <li>
-                                    <a href="@Url.Action("RandomPlaylist", "Playlist", new { playlist = "christmas" })">Christmas Songs</a>
-                                </li>
+                                @if (DateTime.Now.Month == 12)
+                                {
+                                    <li>
+                                        <a href="@Url.Action("RandomPlaylist", "Playlist", new { playlist = "christmas" })">Christmas Songs</a>
+                                    </li>
+                                }
                                 <li>
                                     <a href="@Url.Action("Upload", "Upload")">Sync Songs</a>
                                 </li>
@@ -125,6 +119,9 @@
                                 </li>
                                 <li>
                                     <a href="@Url.Action("History", "Home")">Stats</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("NullValues", "Home")">Null Values</a>
                                 </li>
                             </ul>
                         </li>

@@ -3,18 +3,356 @@
     ViewBag.Title = "History";
 }
 
-    <div class="row panel">
-        <div class="panel-body">
-            <h6>Total Time Listend: @Model.duration</h6>
-            <div class="col-xs-12 col-sm-3">
-                <div id="genrechart" style="max-width: 100%; margin: 0 auto"></div>
+<div class="form-horizontal">
+    <div class="row">
+        <div class="col-xs-12 col-sm-3">
+
+                <div class="panel-body">
+                    <div id="genrechart" style="max-width: 100%; margin: 0 auto"></div>
+                </div>
+
+        </div>
+        <div class="col-xs-12 col-sm-7">
+
+                <div class="panel-body">
+                    <div id="unplayedchart" style="max-width: 100%; margin: 0 auto"></div>
+                </div>
+
+        </div>
+        <div class="col-xs-12 col-sm-2 form-group">
+                <div class="panel-body">
+                    <table class="table table-striped table-hover table-responsive table-bordered">
+                        <tr>
+                            <th class="col-sm-1">
+                                Total Playing Time
+                            </th>
+                            <td class="col-sm-1">
+                                @Model.duration
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="col-sm-1">
+                                Total Number of Songs
+                            </th>
+                            <td class="col-sm-1">
+                                @Model.NumberOfSongs
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+        </div>
+    </div>
+    <div class="row">
+            <div class="col-xs-12 col-sm-4 form-group">
+
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        Longest Songs Played
+                    </h4>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped table-hover table-responsive  table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="col-sm-2">
+                                    Artist
+                                </th>
+                                <th class="col-sm-3">
+                                    Title
+                                </th>
+                                <th class="col-sm-1">
+                                    Duration
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.longestsongplayed)
+                            {
+                                <tr>
+                                    <td class="col-sm-2">
+                                        @Html.ActionLink(item.Artist, "Catalog", "Home", new { artist = item.Artist }, new { @style = "text-decoration: none;" })
+                                    </td>
+                                    <td class="col-sm-3">
+                                        @Html.ActionLink(item.Title, "Album", "Home", new { artist = item.Artist, album = item.Album }, new { @style = "text-decoration: none;" })
+                                    </td>
+                                    <td class="col-sm-1">
+                                        @item.Duration
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <div class="col-xs-12 col-sm-9">
-                <div id="unplayedchart" style="max-width: 100%; margin: 0 auto"></div>
-                <div id="historychart" style="max-width: 100%; margin: 0 auto"></div>
+            <div class="col-xs-12 col-sm-4 form-group">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            Top 5 Most Played Songs
+                        </h4>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-striped table-hover table-responsive table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="col-sm-2">
+                                        Artist
+                                    </th>
+                                    <th class="col-sm-3">
+                                        Title
+                                    </th>
+                                    <th class="col-sm-1">
+                                        Plays
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.indexview)
+                                {
+                                    <tr>
+                                        <td class="col-sm-2">
+                                            @Html.ActionLink(item.artist, "Catalog", "Home", new { artist = item.artist }, new { @style = "text-decoration: none;" })
+                                        </td>
+                                        <td class="col-sm-3">
+                                            @Html.ActionLink(item.title, "Album", "Home", new { artist = item.artist, album = item.album }, new { @style = "text-decoration: none;" })
+                                        </td>
+                                        <td class="col-sm-1">
+                                            @item.PlayCount
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            <div class="col-xs-12 col-sm-4 form-group">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            Top 5 Most Unfinished Songs
+                        </h4>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-striped table-hover table-responsive table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="col-sm-2">
+                                        Artist
+                                    </th>
+                                    <th class="col-sm-3">
+                                        Title
+                                    </th>
+                                    <th class="col-sm-1">
+                                        Unfinished
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.mostskipped)
+                                {
+                                    <tr>
+                                        <td class="col-sm-2">
+                                            @Html.ActionLink(item.Artist, "Catalog", "Home", new { artist = item.Artist }, new { @style = "text-decoration: none;" })
+                                        </td>
+                                        <td class="col-sm-3">
+                                            @Html.ActionLink(item.Title, "Album", "Home", new { artist = item.Artist, album = item.Album }, new { @style = "text-decoration: none;" })
+                                        </td>
+                                        <td class="col-sm-1">
+                                            @item.Skips
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        <div class="row">
+        <div class="col-xs-12 col-sm-4 form-group">
+                <div class="panel-heading">
+                        <h4 class="panel-title">
+                            Top 5 Most Played Artists
+                        </h4>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped table-hover table-responsive  table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="col-sm-3">
+                                    Artist
+                                </th>
+                                <th class="col-sm-1">
+                                    Plays
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.mostplayed)
+                            {
+                                <tr>
+                                    <td class="col-sm-3">
+                                        @Html.ActionLink(item.Artist, "Catalog", "Home", new { artist = item.Artist }, new { @style = "text-decoration: none;" })
+                                    </td>
+                                    <td class="col-sm-1">
+                                        @item.Plays
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        <div class="col-xs-12 col-sm-4 form-group">
+                <div class="panel-heading">
+                        <h4 class="panel-title">
+                            Top 5 Genres Played
+                        </h4>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped table-hover table-responsive  table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="col-sm-3">
+                                    Genre
+                                </th>
+                                <th class="col-sm-1">
+                                    Position
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{ var i = 1;}
+                            @foreach (var item in Model.Genres)
+                            {
+                                <tr>
+                                    <td class="col-sm-3">
+                                        @Html.ActionLink(item.Genre, "GenreArtist", "Browse", new { genre = item.Genre }, new { @style = "text-decoration: none;" })
+                                    </td>
+                                    <td class="col-sm-1">
+                                        @i
+                                    </td>
+                                </tr>
+
+                                i++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-4 form-group">
+                    <div class="panel-heading">
+                            <h4 class="panel-title">
+                                Top 5 Complete Album Listens
+                            </h4>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-striped table-hover table-responsive  table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="col-sm-1">
+                                        Artist
+                                    </th>
+                                    <th class="col-sm-2">
+                                        Album
+                                    </th>
+                                    <th class="col-sm-1">
+                                        Plays
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.finishedalbums)
+                                {
+                                    <tr>
+                                        <td class="col-sm-1">
+                                            @Html.ActionLink(item.Artist, "Catalog", "Home", new { artist = item.Artist }, new { @style = "text-decoration: none;" })
+                                        </td>
+                                        <td class="col-sm-2">
+                                            @Html.ActionLink(item.Album, "Album", "Home", new { artist = item.Artist, album = item.Album }, new { @style = "text-decoration: none;" })
+                                        </td>
+                                        <td class="col-sm-1">
+                                            @item.Plays
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-4 form-group">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    Top 5 Most Albums Played by Artist
+                </h4>
+            </div>
+            <div class="panel-body">
+                <table class="table table-striped table-hover table-responsive  table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="col-sm-3">
+                                Artist
+                            </th>
+                            <th class="col-sm-1">
+                                Plays
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.albumbyartist)
+                        {
+                            <tr>
+                                <td class="col-sm-3">
+                                    @Html.ActionLink(item.Artist, "Catalog", "Home", new { artist = item.Artist }, new { @style = "text-decoration: none;" })
+                                </td>
+                                <td class="col-sm-1">
+                                    @item.Plays
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-sm-4 form-group">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    Top 5 Most Albums Played by Genre
+                </h4>
+            </div>
+            <div class="panel-body">
+                <table class="table table-striped table-hover table-responsive  table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="col-sm-3">
+                                Genre
+                            </th>
+                            <th class="col-sm-1">
+                                Plays
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.albumbygenre)
+                        {
+                            <tr>
+                                <td class="col-sm-3">
+                                    @Html.ActionLink(item.Genre, "GenreArtist", "Browse", new { genre = item.Genre }, new { @style = "text-decoration: none;" })
+                                </td>
+                                <td class="col-sm-1">
+                                    @item.Plays
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
+
+</div>
+
 
 
 @section Scripts{
@@ -34,7 +372,7 @@
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
 
 
- <script>
+    <script>
         $(function () {
 
             $(document).ready(function () {
@@ -56,10 +394,10 @@
                         type: 'pie'
                     },
                     title: {
-                        text: 'This Month'
+                        text: 'Played Genres'
                     },
                     tooltip: {
-                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                        pointFormat: '{series.name}: <b>{point.y:.0f}</b>'
                     },
                     plotOptions: {
                         pie: {
@@ -74,6 +412,9 @@
                     credits: {
                         enabled: false
                     },
+                    exporting: { 
+                        enabled: false 
+                    },
                     series: [{
                         name: 'Songs',
                         colorByPoint: true,
@@ -83,57 +424,238 @@
                 });
             });
         });
-</script>
+    </script>
     <script>
         $(function () {
-            Highcharts.chart('historychart', {
+      
+
+
+            Highcharts.theme = {
+                colors: ['#2b908f', '#90ee7e', '#f45b5b', '#7798BF', '#aaeeee', '#ff0066', '#eeaaee',
+                   '#55BF3B', '#DF5353', '#7798BF', '#aaeeee'],
+                chart: {
+                    backgroundColor: {
+                        linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
+                        stops: [
+                           [0, '#2a2a2b'],
+                           [1, '#3e3e40']
+                        ]
+                    },
+                    style: {
+                        fontFamily: '\'Unica One\', sans-serif'
+                    },
+                    plotBorderColor: '#606063'
+                },
                 title: {
-                    text: 'Number of Songs Skipped to Per Day',
-                    x: -20 //center
+                    style: {
+                        color: '#E0E0E3',
+                        textTransform: 'uppercase',
+                        fontSize: '20px'
+                    }
+                },
+                subtitle: {
+                    style: {
+                        color: '#E0E0E3',
+                        textTransform: 'uppercase'
+                    }
                 },
                 xAxis: {
-                    categories: @Html.Raw(Json.Encode(Model.Unplayedhistory.Select(x => x.Date))),
+                    gridLineColor: '#707073',
+                    labels: {
+                        style: {
+                            color: '#E0E0E3'
+                        }
+                    },
+                    lineColor: '#707073',
+                    minorGridLineColor: '#505053',
+                    tickColor: '#707073',
+                    title: {
+                        style: {
+                            color: '#A0A0A3'
+
+                        }
+                    }
                 },
                 yAxis: {
-                    title: {
-                        text: 'Skips Per Day'
+                    gridLineColor: '#707073',
+                    labels: {
+                        style: {
+                            color: '#E0E0E3'
+                        }
                     },
-                    plotLines: [{
-                        value: 0,
-                        width: 1,
-                        color: '#808080'
-                    }]
+                    lineColor: '#707073',
+                    minorGridLineColor: '#505053',
+                    tickColor: '#707073',
+                    tickWidth: 1,
+                    title: {
+                        style: {
+                            color: '#A0A0A3'
+                        }
+                    }
                 },
                 tooltip: {
-                    valueSuffix: ' Songs'
+                    backgroundColor: 'rgba(0, 0, 0, 0.85)',
+                    style: {
+                        color: '#F0F0F0'
+                    }
+                },
+                plotOptions: {
+                    series: {
+                        dataLabels: {
+                            color: '#B0B0B3'
+                        },
+                        marker: {
+                            lineColor: '#333'
+                        }
+                    },
+                    boxplot: {
+                        fillColor: '#505053'
+                    },
+                    candlestick: {
+                        lineColor: 'white'
+                    },
+                    errorbar: {
+                        color: 'white'
+                    }
                 },
                 legend: {
-                    layout: 'vertical',
-                    align: 'right',
-                    verticalAlign: 'middle',
-                    borderWidth: 0
+                    itemStyle: {
+                        color: '#E0E0E3'
+                    },
+                    itemHoverStyle: {
+                        color: '#FFF'
+                    },
+                    itemHiddenStyle: {
+                        color: '#606063'
+                    }
                 },
                 credits: {
-                    enabled: false
+                    style: {
+                        color: '#666'
+                    }
                 },
-                series: [{
-                    name: 'Skipped', 
-                    data: @Html.Raw(Json.Encode(Model.Unplayedhistory.Select(x => x.Count))),
-                    }]
+                labels: {
+                    style: {
+                        color: '#707073'
+                    }
+                },
 
-            });
-        });
-    </script>
-<script>
-        $(function () {
+                drilldown: {
+                    activeAxisLabelStyle: {
+                        color: '#F0F0F3'
+                    },
+                    activeDataLabelStyle: {
+                        color: '#F0F0F3'
+                    }
+                },
+
+                navigation: {
+                    buttonOptions: {
+                        symbolStroke: '#DDDDDD',
+                        theme: {
+                            fill: '#505053'
+                        }
+                    }
+                },
+
+                // scroll charts
+                rangeSelector: {
+                    buttonTheme: {
+                        fill: '#505053',
+                        stroke: '#000000',
+                        style: {
+                            color: '#CCC'
+                        },
+                        states: {
+                            hover: {
+                                fill: '#707073',
+                                stroke: '#000000',
+                                style: {
+                                    color: 'white'
+                                }
+                            },
+                            select: {
+                                fill: '#000003',
+                                stroke: '#000000',
+                                style: {
+                                    color: 'white'
+                                }
+                            }
+                        }
+                    },
+                    inputBoxBorderColor: '#505053',
+                    inputStyle: {
+                        backgroundColor: '#333',
+                        color: 'silver'
+                    },
+                    labelStyle: {
+                        color: 'silver'
+                    }
+                },
+
+                navigator: {
+                    handles: {
+                        backgroundColor: '#666',
+                        borderColor: '#AAA'
+                    },
+                    outlineColor: '#CCC',
+                    maskFill: 'rgba(255,255,255,0.1)',
+                    series: {
+                        color: '#7798BF',
+                        lineColor: '#A6C7ED'
+                    },
+                    xAxis: {
+                        gridLineColor: '#505053'
+                    }
+                },
+
+                scrollbar: {
+                    barBackgroundColor: '#808083',
+                    barBorderColor: '#808083',
+                    buttonArrowColor: '#CCC',
+                    buttonBackgroundColor: '#606063',
+                    buttonBorderColor: '#606063',
+                    rifleColor: '#FFF',
+                    trackBackgroundColor: '#404043',
+                    trackBorderColor: '#404043'
+                },
+
+                // special colors for some of the
+                legendBackgroundColor: 'rgba(0, 0, 0, 0.5)',
+                background2: '#505053',
+                dataLabelsColor: '#B0B0B3',
+                textColor: '#C0C0C0',
+                contrastTextColor: '#F0F0F3',
+                maskColor: 'rgba(255,255,255,0.3)'
+            };
+
+            // Apply the theme
+            Highcharts.setOptions(Highcharts.theme);
             Highcharts.chart('unplayedchart', {
+                chart: {
+                    type: 'spline'
+                },
                 title: {
-                    text: 'Number of Songs Listened to Per Day',
+                    text: 'Songs Per Day',
                     x: -20 //center
                 },
-                xAxis: {
-                    categories: @Html.Raw(Json.Encode(Model.PlayHistory.Select(x => x.Date))),
+                subtitle: {
+                    text: 'Last 7 Days',
+                    x: -20
                 },
+                xAxis: {
+                    categories:
+                        
+                            @if(Model.Unplayedhistories.Any(x=>x.Date == DateTime.Now.ToShortDateString()))
+                            {
+                                @Html.Raw(Json.Encode(Model.Unplayedhistory.Select(x => x.Date)))
+                            }
+                            else
+                            {
+                                @Html.Raw(Json.Encode(Model.PlayHistory.Select(x => x.Date)))
+                            }
+                        
+                    },
                 yAxis: {
                     title: {
                         text: 'Plays Per Day'
@@ -156,12 +678,20 @@
                 credits: {
                     enabled: false
                 },
+                exporting: { 
+                    enabled: false 
+                },
                 series: [{
                     name: 'Plays',
                     data: @Html.Raw(Json.Encode(Model.PlayHistory.Select(x => x.Count))),
-                    }]
+
+                },
+                {
+                    name: 'Unfinished',
+                    data: @Html.Raw(Json.Encode(Model.Unplayedhistory.Select(x => x.Count))),
+                }]
 
             });
         });
-</script>
+    </script>
 }

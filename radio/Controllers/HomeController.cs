@@ -124,6 +124,26 @@ namespace radio.Controllers
                     invm.indexview.Add(tl);
                 }
 
+                if(db.TrackLists.Any(x=>x.Title.Contains(artist)))
+                {
+                ivm tl = new ivm();
+
+                tl.artist = artist;
+                tl.album = "As Featured Artist";
+
+                var track = db.TrackLists.FirstOrDefault(x => x.Title.Contains(artist)).Location;
+                track = @"\\51-DBA\radio\music\" + track.Substring(7);
+                TagLib.File file = TagLib.File.Create(track);
+
+                if (file.Tag.Pictures.Length >= 1)
+                {
+                    tl.Art = Convert.ToBase64String(file.Tag.Pictures[0].Data.Data);
+                }
+
+                invm.indexview.Add(tl);
+            }
+                
+
                 var artists = db.TrackLists.Where(x => x.Artist == artist).OrderBy(x => x.Album).ToArray();
                 if (shuffled != null)
                 {
@@ -174,86 +194,174 @@ namespace radio.Controllers
                 artist = TrackArtists.FirstOrDefault().Artist;
                 album = TrackArtists.FirstOrDefault().Album;
             }
-
-            var songs = db.TrackLists.Where(x => x.Album == album && x.Artist == artist).OrderBy(x => x.TrackNumber).ToArray();
-            var track = db.TrackLists.FirstOrDefault(x => x.Album == album && x.Artist == artist).Location;
-            track = @"\\51-DBA\radio\music\" + track.Substring(7);
-            TagLib.File file = TagLib.File.Create(track);
-
-            if (shuffled != null)
+            if(album == "As Featured Artist")
             {
-                Shuffle(songs);
-            }
+                var songs = db.TrackLists.Where(x => x.Title.Contains(artist)).ToArray();
+                var track = db.TrackLists.FirstOrDefault(x => x.Title.Contains(artist)).Location;
 
-            var hours = 0;
-            var minutes = 0;
-            var seconds = 0;
-            foreach (var item in songs)
+                track = @"\\51-DBA\radio\music\" + track.Substring(7);
+                TagLib.File file = TagLib.File.Create(track);
+
+                if (shuffled != null)
+                {
+                    Shuffle(songs);
+                }
+
+                var hours = 0;
+                var minutes = 0;
+                var seconds = 0;
+                foreach (var item in songs)
+                {
+                    string[] duration = item.Duration.Split(':', '.');
+                    hours = hours + Convert.ToInt32(duration[0]);
+                    minutes = minutes + Convert.ToInt32(duration[1]);
+                    seconds = seconds + Convert.ToInt32(duration[2]);
+                }
+                for (var i = seconds; i >= 60; i = i - 60)
+                {
+                    seconds = seconds - 60;
+                    minutes = minutes + 1;
+                }
+                for (var i = minutes; i >= 60; i = i - 60)
+                {
+                    minutes = minutes - 60;
+                    hours = hours + 1;
+                }
+                var timeframe = hours.ToString("00") + ":" + minutes.ToString("00") + ":" + seconds.ToString("00");
+                invm.duration = timeframe;
+                invm.Playlist = songs.Count().ToString();
+
+                invm.artist = artist;
+                invm.album = album;
+                if (file.Tag.Pictures.Length >= 1)
+                {
+                    invm.Art = Convert.ToBase64String(file.Tag.Pictures[0].Data.Data);
+                }
+                var trackNumber = 1;
+                foreach (var item in songs)
+                {
+                    ivm tl = new ivm();
+                    tl.artist = item.Artist;
+                    tl.album = item.Album;
+                    tl.tracknumber = trackNumber;
+                    tl.title = item.Title;
+                    tl.duration = item.Duration.Substring(0, item.Duration.Length - 8);
+                    tl.genre = item.Genre;
+                    tl.location = item.Location;
+                    tl.ID = item.ID;
+
+                    invm.indexview.Add(tl);
+                    trackNumber++;
+                }
+
+                foreach (var item in songs)
+                {
+                    player tl = new player();
+                    tl.artist = item.Artist;
+                    tl.album = item.Album;
+                    tl.tracknumber = item.TrackNumber;
+                    tl.title = item.Title;
+                    tl.duration = item.Duration.Substring(0, item.Duration.Length - 8);
+                    tl.genre = item.Genre;
+                    tl.location = item.Location;
+                    tl.ID = item.ID;
+
+                    invm.StreamPlayer.Add(tl);
+                }
+
+                var sidebar = db.PlaylistNames.Select(x => x.PlaylistName1).Distinct().ToList();
+                foreach (var item in sidebar)
+                {
+                    playlist pl = new playlist();
+                    pl.Playlist = item;
+
+                    invm.PlayList.Add(pl);
+                }
+            }
+            else
             {
-                string[] duration = item.Duration.Split(':', '.');
-                hours = hours + Convert.ToInt32(duration[0]);
-                minutes = minutes + Convert.ToInt32(duration[1]);
-                seconds = seconds + Convert.ToInt32(duration[2]);
-            }
-            for (var i = seconds; i >= 60; i = i - 60)
-            {
-                seconds = seconds - 60;
-                minutes = minutes + 1;
-            }
-            for (var i = minutes; i >= 60; i = i - 60)
-            {
-                minutes = minutes - 60;
-                hours = hours + 1;
-            }
-            var timeframe = hours.ToString("00") + ":" + minutes.ToString("00") + ":" + seconds.ToString("00");
-            invm.duration = timeframe;
-            invm.Playlist = songs.Count().ToString();
+                var songs = db.TrackLists.Where(x => x.Album == album && x.Artist == artist).OrderBy(x => x.TrackNumber).ToArray();
+                var track = db.TrackLists.FirstOrDefault(x => x.Album == album && x.Artist == artist).Location;
 
-            invm.artist = artist;
-            invm.album = album;
-            if (file.Tag.Pictures.Length >= 1)
-            {
-                invm.Art = Convert.ToBase64String(file.Tag.Pictures[0].Data.Data);
+                track = @"\\51-DBA\radio\music\" + track.Substring(7);
+                TagLib.File file = TagLib.File.Create(track);
+
+                if (shuffled != null)
+                {
+                    Shuffle(songs);
+                }
+
+                var hours = 0;
+                var minutes = 0;
+                var seconds = 0;
+                foreach (var item in songs)
+                {
+                    string[] duration = item.Duration.Split(':', '.');
+                    hours = hours + Convert.ToInt32(duration[0]);
+                    minutes = minutes + Convert.ToInt32(duration[1]);
+                    seconds = seconds + Convert.ToInt32(duration[2]);
+                }
+                for (var i = seconds; i >= 60; i = i - 60)
+                {
+                    seconds = seconds - 60;
+                    minutes = minutes + 1;
+                }
+                for (var i = minutes; i >= 60; i = i - 60)
+                {
+                    minutes = minutes - 60;
+                    hours = hours + 1;
+                }
+                var timeframe = hours.ToString("00") + ":" + minutes.ToString("00") + ":" + seconds.ToString("00");
+                invm.duration = timeframe;
+                invm.Playlist = songs.Count().ToString();
+
+                invm.artist = artist;
+                invm.album = album;
+                if (file.Tag.Pictures.Length >= 1)
+                {
+                    invm.Art = Convert.ToBase64String(file.Tag.Pictures[0].Data.Data);
+                }
+
+                foreach (var item in songs)
+                {
+                    ivm tl = new ivm();
+                    tl.artist = item.Artist;
+                    tl.album = item.Album;
+                    tl.tracknumber = item.TrackNumber;
+                    tl.title = item.Title;
+                    tl.duration = item.Duration.Substring(0, item.Duration.Length - 8);
+                    tl.genre = item.Genre;
+                    tl.location = item.Location;
+                    tl.ID = item.ID;
+
+                    invm.indexview.Add(tl);
+                }
+
+                foreach (var item in songs)
+                {
+                    player tl = new player();
+                    tl.artist = item.Artist;
+                    tl.album = item.Album;
+                    tl.tracknumber = item.TrackNumber;
+                    tl.title = item.Title;
+                    tl.duration = item.Duration.Substring(0, item.Duration.Length - 8);
+                    tl.genre = item.Genre;
+                    tl.location = item.Location;
+                    tl.ID = item.ID;
+
+                    invm.StreamPlayer.Add(tl);
+                }
+
+                var sidebar = db.PlaylistNames.Select(x => x.PlaylistName1).Distinct().ToList();
+                foreach (var item in sidebar)
+                {
+                    playlist pl = new playlist();
+                    pl.Playlist = item;
+
+                    invm.PlayList.Add(pl);
+                }
             }
-
-            foreach (var item in songs)
-            {
-                ivm tl = new ivm();
-                tl.artist = item.Artist;
-                tl.album = item.Album;
-                tl.tracknumber = item.TrackNumber;
-                tl.title = item.Title;
-                tl.duration = item.Duration.Substring(0, item.Duration.Length - 8);
-                tl.genre = item.Genre;
-                tl.location = item.Location;
-                tl.ID = item.ID;
-
-                invm.indexview.Add(tl);
-            }
-
-            foreach (var item in songs)
-            {
-                player tl = new player();
-                tl.artist = item.Artist;
-                tl.album = item.Album;
-                tl.tracknumber = item.TrackNumber;
-                tl.title = item.Title;
-                tl.duration = item.Duration.Substring(0, item.Duration.Length - 8);
-                tl.genre = item.Genre;
-                tl.location = item.Location;
-                tl.ID = item.ID;
-
-                invm.StreamPlayer.Add(tl);
-            }
-
-            var sidebar = db.PlaylistNames.Select(x => x.PlaylistName1).Distinct().ToList();
-            foreach (var item in sidebar)
-            {
-                playlist pl = new playlist();
-                pl.Playlist = item;
-
-                invm.PlayList.Add(pl);
-            }
+            
 
             invm.PlayList = invm.PlayList.ToList();
             invm.indexview = invm.indexview.ToList();
@@ -389,12 +497,45 @@ namespace radio.Controllers
         {
             IndexViewModel invm = new IndexViewModel();
             var SongList = db.PlayCounts.OrderByDescending(x => x.SongPlayCount).ToList();
-
+            var lastSevenDays = DateTime.Now.AddDays(-7);
             var hours = 0;
             var minutes = 0;
             var seconds = 0;
             var played = db.Histories.Where(x => x.IsComplete == 1).OrderBy(x=>x.Timestamp);
-            var unplayed = db.Histories.Where(x => x.IsComplete == 0).OrderBy(x => x.Timestamp);
+            var unplayed = db.SkippedSongs.OrderBy(x => x.Timestamp);
+            var CompleteAlbums = db.CompleteAlbumListens.Take(5);
+            var top5played = db.PlayedSongs.OrderByDescending(x => x.SongPlayCount).Take(5).ToList();
+
+            var genre = db.PlayedSongs.Where(x => x.Genre != null).GroupBy(x=>x.Genre).OrderByDescending(x=>x.Count()).Take(5);
+
+            foreach(var item in top5played)
+            {
+                ivm i = new ivm();
+                i.artist = item.Artist;
+                i.title = item.Title;
+                i.album = item.Album;
+                i.PlayCount = item.SongPlayCount;
+                invm.indexview.Add(i);
+            }
+
+            foreach (var item in genre)
+            {
+                topGenres gc = new topGenres();
+                gc.Genre = item.Key;
+                gc.PlayCount = item.Sum(x => x.SongPlayCount);
+
+                invm.Genres.Add(gc);
+            }
+
+            invm.Genres = invm.Genres.ToList();
+
+            foreach (var item in db.MostPlayedArtists.Take(5))
+            {
+                MostPlayed mp = new MostPlayed();
+                mp.Artist = item.Artist;
+                mp.Plays = item.Plays;
+                invm.mostplayed.Add(mp);
+            }
 
             foreach (var item in SongList)
             {
@@ -450,7 +591,7 @@ namespace radio.Controllers
                 gc.PlayCount = playcount;
                 invm.Charts.Add(gc);
             }
-            foreach (var item in invm.Charts.GroupBy(x => x.Genre))
+            foreach (var item in invm.Charts.GroupBy(x => x.Genre).Take(10))
             {
                 genrechart gc = new genrechart();
                 gc.name = item.Key;
@@ -458,7 +599,7 @@ namespace radio.Controllers
                 invm.Chart.Add(gc);
             }
             
-            foreach (var item in played)
+            foreach (var item in played.Where(x=>x.Timestamp >= lastSevenDays))
             {
                 historychart hc = new historychart();
                 hc.Date = item.Timestamp.Value.ToShortDateString();
@@ -474,7 +615,7 @@ namespace radio.Controllers
 
                 invm.PlayHistory.Add(hc);
             }
-            foreach (var item in unplayed)
+            foreach (var item in unplayed.Where(x => x.Timestamp >= lastSevenDays))
             {
                 unplayedchart hc = new unplayedchart();
                 hc.Date = item.Timestamp.Value.ToShortDateString();
@@ -490,12 +631,80 @@ namespace radio.Controllers
 
                 invm.Unplayedhistory.Add(hc);
             }
+            foreach(var item in CompleteAlbums)
+            {
+                FinishedAlbums fa = new FinishedAlbums();
+                fa.Artist = item.Artist;
+                fa.Album = item.Album;
+                fa.Plays = item.Plays;
 
+                invm.finishedalbums.Add(fa);
+            }
+            foreach (var item in db.LongestSongs.Take(5))
+            {
+                LongestSongPlayed lsp = new LongestSongPlayed();
+                lsp.Artist = item.Artist;
+                lsp.Album = item.Album;
+                lsp.Title = item.Title;
+                lsp.Duration = item.Duration.Remove(8);
+                invm.longestsongplayed.Add(lsp);
+            }
+            foreach(var item in db.MostUnfinishedSongs.Take(5))
+            {
+                MostSkipped ms = new MostSkipped();
+                ms.Artist = item.Artist;
+                ms.Title = item.Title;
+                ms.Skips = item.Skips;
+                ms.Album = item.Album;
+                invm.mostskipped.Add(ms);
+            }
+            foreach(var item in db.CompleteAlbumListensByArtists.Take(5))
+            {
+                AlbumsByArtist aba = new AlbumsByArtist();
+                aba.Artist = item.Artist;
+                aba.Plays = item.Plays;
+                invm.albumbyartist.Add(aba);
+            }
+            foreach(var item in db.CompleteAlbumListensByGenres.Take(5))
+            {
+                AlbumsByGenre abg = new AlbumsByGenre();
+                abg.Genre = item.Genre;
+                abg.Plays = item.Plays;
+                invm.albumbygenre.Add(abg);
+            }
+
+            var DoNotCount = db.TrackLists.Where(x => x.Location.Contains(".flac"));
+            invm.NumberOfSongs = db.TrackLists.Except(DoNotCount).Count();
             invm.Chart = invm.Chart.ToList();
             invm.PlayList = invm.PlayList.ToList();
             invm.PlayHistory = invm.PlayHistory.ToList();
             invm.Unplayedhistory = invm.Unplayedhistory.ToList();
             invm.indexview = invm.indexview.ToList();
+            invm.finishedalbums = invm.finishedalbums.ToList();
+            return View(invm);
+        }
+        public ActionResult NullValues()
+        {
+            IndexViewModel invm = new IndexViewModel();
+
+            var nullValues = db.TrackLists.Where(x => x.Artist == null || x.Album == null || x.Title == null || x.TrackNumber == null || x.Genre == null);
+
+            foreach (var item in nullValues)
+            {
+                ivm t = new ivm();
+
+                t.artist = item.Artist;
+                t.album = item.Album;
+                t.title = item.Title;
+                t.tracknumber = item.TrackNumber;
+                t.genre = item.Genre;
+                t.ID = item.ID;
+
+                invm.indexview.Add(t);
+            }
+
+            invm.tracknumber = nullValues.Count();
+
             return View(invm);
         }
     }

@@ -2,6 +2,9 @@
 @{
     ViewBag.Title = "25 Most Played Songs";
 }
+@{ 
+    var i = 0;
+}
 
 <div class="row panel">
     <div class="panel-body">
@@ -27,9 +30,6 @@
                         <th>
                             Last Played
                         </th>
-                        <th>
-                            <a class="btn btn-default" href="@Url.Action("Album", "Home", new { artist = Model.artist, album = Model.album, shuffled = "yes" })"><span class="glyphicon glyphicon-random"></span></a>
-                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -54,7 +54,11 @@
                             <td>
                                 @Html.DisplayFor(modelitem => item.LastPlayed)
                             </td>
+                            <td>
+                                <button type="button" class="btn btn-default" onclick="window.sm2BarPlayers[0].actions.play(@i);"><span class="glyphicon glyphicon-play"></span></button>
+                            </td>
                         </tr>
+                        i++;
                     }
                 </tbody>
             </table>

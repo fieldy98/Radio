@@ -29,5 +29,13 @@ namespace radio
         public virtual DbSet<TrackList> TrackLists { get; set; }
         public virtual DbSet<PlayCount> PlayCounts { get; set; }
         public virtual DbSet<History> Histories { get; set; }
+        public virtual DbSet<PlayedSong> PlayedSongs { get; set; }
+        public virtual DbSet<SkippedSong> SkippedSongs { get; set; }
+        public virtual DbSet<CompleteAlbumListen> CompleteAlbumListens { get; set; }
+        public virtual DbSet<MostPlayedArtist> MostPlayedArtists { get; set; }
+        public virtual DbSet<MostUnfinishedSong> MostUnfinishedSongs { get; set; }
+        public virtual DbSet<LongestSong> LongestSongs { get; set; }
+        public virtual DbSet<CompleteAlbumListensByArtist> CompleteAlbumListensByArtists { get; set; }
+        public virtual DbSet<CompleteAlbumListensByGenre> CompleteAlbumListensByGenres { get; set; }
     }
 }

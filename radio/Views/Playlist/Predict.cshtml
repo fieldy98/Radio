@@ -1,7 +1,7 @@
 ﻿@model radio.ViewModels.IndexViewModel
 
 @{
-    ViewBag.Title = "Playlist";
+    ViewBag.Title = "Songs You Might Like";
 }
 
 
@@ -28,9 +28,6 @@ There are @Model.tracknumber songs lasting @Model.duration.
                         <th class="hidden-xs">
                             Length
                         </th>
-                        <th>
-                            <a class="btn btn-default" href="@Url.Action("Playlist", "Playlist", new { username = User.Identity.Name, playlist = Model.Playlist, shuffled = "yes" })"><span class="glyphicon glyphicon-random"></span></a>
-                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -38,7 +35,7 @@ There are @Model.tracknumber songs lasting @Model.duration.
             {
                         <tr>
                             <td>
-                                    @Html.DisplayFor(modelItem => item.tracknumber)
+                                @Html.DisplayFor(modelItem => item.tracknumber)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.artist)
@@ -57,8 +54,7 @@ There are @Model.tracknumber songs lasting @Model.duration.
                             </td>
                             <td class="col-sm-4">
                                 <div class="btn-group" role="group" aria-label="Basic example">
-                                    <button id="@item.ID" type="button" class="btn btn-default" onclick="window.sm2BarPlayers[0].actions.play(@item.tracknumber - 1);"><span class="glyphicon glyphicon-play"></span></button>
-
+                                    <button type="button" class="btn btn-default" onclick="window.sm2BarPlayers[0].actions.play(@item.tracknumber - 1);"><span class="glyphicon glyphicon-play"></span></button>
                                     @if (item.Art != null)
                                     {
                                         <button type="button" class="btn btn-default" data-toggle="modal" data-target=".@item.tracknumber"><span class="glyphicon glyphicon-picture"></span></button>
@@ -69,7 +65,7 @@ There are @Model.tracknumber songs lasting @Model.duration.
                                     }
                                     @*<a class="btn btn-default" href="@Url.Action("AddToPlaylist", "Playlist", new { id = item.ID })"><span class="glyphicon glyphicon-plus"></span></a>*@
                                     <button type="button" class="btn btn-default modal('toggle')" data-toggle="modal" data-target="#@item.ID" id="@item.ID" onclick="addToPlaylist(this.id, this.id)"><span class="glyphicon glyphicon-plus"></span></button>
-                               </div>
+                                </div>
                             </td>
                         </tr>
                         <div class="modal fade @item.tracknumber" tabindex="-1" role="dialog" aria-labelledby="@item.tracknumber">
@@ -94,7 +90,7 @@ There are @Model.tracknumber songs lasting @Model.duration.
                                 <div class="modal-content">
                                     <div class="modal-body">
                                         <div class="col-sm-12" id="addToPlaylist">
-                                                
+
                                         </div>
                                     </div>
                                     <div class="modal-footer">
